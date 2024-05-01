@@ -17,9 +17,9 @@ public class OrderController {
 
     //주문 취소 로직
     @PostMapping("/order-cancel")
-    public String orderCancel(OrderRequest.CancelDTO requestDTO) {
-//        System.out.println("주문 취소 DTO : " + requestDTO);
-        orderService.orderCancel(requestDTO);
+    public @ResponseBody String orderCancel(@RequestBody List<OrderRequest.CancelDTO> requestDTO) {
+        System.out.println("주문 취소 DTO : " + requestDTO);
+//        orderService.orderCancel(requestDTO);
         return "redirect:/order-list";
     }
 
