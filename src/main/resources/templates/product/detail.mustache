@@ -16,10 +16,10 @@
                 <input type="hidden" name="productId" value="{{product.id}}">
 
                 <div class="mb-3 mt-3">
-                    상 품 명 : <input name="name" type="text" class="form-control" value="{{product.name}}" disabled>
+                    상 품 명 : <input name="pName" type="text" class="form-control" value="{{product.name}}" readonly>
                 </div>
                 <div class="mb-3 mt-3">
-                    상품가격 : <input name="price" type="text" class="form-control" value="{{product.price}}" disabled>
+                    상품가격 : <input name="price" type="text" class="form-control" value="{{product.price}}" readonly>
                 </div>
                 <div class="mb-3 mt-3">
                     <div>구매수량 : <span style="color: grey;">(재고 : {{product.qty}})</span></div>

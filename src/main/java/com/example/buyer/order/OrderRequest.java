@@ -7,6 +7,17 @@ import lombok.Data;
 
 public class OrderRequest {
 
+    //save-order-form DTO 주문하기 전 나오는 페이지
+    @Data
+    public static class SaveOrderDTO {
+        private Integer productId;
+        private Integer buyQty;
+        private String pName;
+        private Integer price;
+
+    }
+
+
     //주문 취소용 정보 받는 dto
     @Data
     public static class CancelDTO {

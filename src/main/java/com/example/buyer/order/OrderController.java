@@ -70,11 +70,12 @@ public class OrderController {
 
     // 주문하려는 물품 확인 폼
     @GetMapping("/order-save-form")
-    public String orderCheckForm(@RequestParam("productId") Integer productId, @RequestParam("buyQty") Integer buyQty, HttpServletRequest request) {
+    public String orderCheckForm(OrderRequest.SaveOrderDTO requestDTO, HttpServletRequest request) {
         User sessionUser = (User) session.getAttribute("sessionUser");
+        System.out.println("주문폼 확인용 " + requestDTO);
 
         //dto 사용해서 한 번에 다 담기
-        OrderResponse.SaveFormDTO orderCheck = orderService.orderCheck(sessionUser.getId(), productId, buyQty);
+        OrderResponse.SaveFormDTO orderCheck = orderService.orderCheck(sessionUser.getId(), requestDTO);
         System.out.println("주문폼 dto 값 확인 : " + orderCheck);
         request.setAttribute("order", orderCheck);
 

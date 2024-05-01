@@ -32,13 +32,13 @@ public class OrderService {
 
 
     //주문폼 orderViewForm //responseDTO인가 ? ? ?
-    public OrderResponse.SaveFormDTO orderCheck(Integer sessionUserId, Integer productId, Integer buyQty) {
+    public OrderResponse.SaveFormDTO orderCheck(Integer sessionUserId, OrderRequest.SaveOrderDTO requestDTO) {
         User user = orderRepo.findByUserId(sessionUserId);
-        Product product = orderRepo.findByProductId(productId);
+        Product product = orderRepo.findByProductId(requestDTO.getProductId());
 
-        Integer sum = buyQty * product.getPrice();
+        Integer sum = requestDTO.getBuyQty() * product.getPrice();
 
-        return new OrderResponse.SaveFormDTO(user, product, buyQty, sum);
+        return new OrderResponse.SaveFormDTO(user, product, requestDTO.getBuyQty(), sum);
     }
 
 
