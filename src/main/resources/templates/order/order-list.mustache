@@ -87,7 +87,7 @@
                 let checkedOrder = {
                     orderId: orderId,
                     buyQty: buyQty,
-                    status: checkBox.checked ? true : false
+                    status: checkBox.checked ? false : true
                 };
 
                 checkArr.push(checkedOrder);
@@ -103,7 +103,7 @@
 
         }).done((res)=>{
             alert(`res : ${res}`);
-            location.href = "/order-save-form"
+            location.href = "/order-list"
 
         }).fail((res)=>{
 

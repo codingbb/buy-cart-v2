@@ -22,7 +22,6 @@ public class UserRequest {
         private String phone;
         private LocalDate birth;
         private String address;
-        private Integer role;
     }
 
 }

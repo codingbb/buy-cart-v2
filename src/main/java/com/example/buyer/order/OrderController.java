@@ -19,7 +19,7 @@ public class OrderController {
     @PostMapping("/order-cancel")
     public @ResponseBody String orderCancel(@RequestBody List<OrderRequest.CancelDTO> requestDTO) {
         System.out.println("주문 취소 DTO : " + requestDTO);
-//        orderService.orderCancel(requestDTO);
+        orderService.orderCancel(requestDTO);
         return "redirect:/order-list";
     }
 
@@ -39,7 +39,7 @@ public class OrderController {
         User sessionUser = (User) session.getAttribute("sessionUser");
 
         List<OrderResponse.ListDTO> orderList = orderService.orderList(sessionUser.getId());
-        System.out.println("오더 리스트 : " + orderList);
+//        System.out.println("오더 리스트 : " + orderList);
         request.setAttribute("orderList", orderList);
 
         return "/order/order-list";

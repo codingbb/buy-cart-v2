@@ -12,7 +12,7 @@ public class OrderRequest {
     public static class CancelDTO {
         private Integer orderId;
         private Integer buyQty;
-        private String status;
+        private Boolean status;
     }
 
 

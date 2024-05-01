@@ -28,8 +28,8 @@ public class UserRepository {
     public void save(UserRequest.JoinDTO requestDTO) {
         String q = """
                 insert into user_tb 
-                (username, password, name, phone, birth, address, role, created_at) 
-                values (?, ?, ?, ?, ?, ?, ?, now())
+                (username, password, name, phone, birth, address, created_at) 
+                values (?, ?, ?, ?, ?, ?, now())
                 """;
 
         Query query = em.createNativeQuery(q);
@@ -39,7 +39,6 @@ public class UserRepository {
         query.setParameter(4, requestDTO.getPhone());
         query.setParameter(5, requestDTO.getBirth());
         query.setParameter(6, requestDTO.getAddress());
-        query.setParameter(7, requestDTO.getRole());
 
         query.executeUpdate();
     }

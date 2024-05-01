@@ -19,7 +19,8 @@ public class OrderRepository {
     private final EntityManager em;
 
     //주문 취소 쿼리문 join 쓰고싶어서 씀 (product_tb 수량 변경, order_tb 상태값 변경)
-    public void findByIdAndUpdateStatus(OrderRequest.CancelDTO requestDTO) {
+    public void findByIdAndUpdateStatus(List<OrderRequest.CancelDTO> requestDTO) {
+        for (OrderRequest.CancelDTO request : requestDTO) {
         String q = """
                 update order_tb o 
                 inner join product_tb p on o.product_id = p.id 
@@ -27,11 +28,13 @@ public class OrderRepository {
                 """;
 
         Query query = em.createNativeQuery(q);
-        query.setParameter(1, requestDTO.getStatus());
-        query.setParameter(2, requestDTO.getBuyQty());
-        query.setParameter(3, requestDTO.getOrderId());
+
+        query.setParameter(1, request.getStatus());   //false 고정값으로 받아와도 되는걸까..
+        query.setParameter(2, request.getBuyQty());
+        query.setParameter(3, request.getOrderId());
         query.executeUpdate();
 
+        }
     }
 
 

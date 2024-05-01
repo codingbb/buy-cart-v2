@@ -16,7 +16,7 @@ public class OrderService {
 
     //주문 취소하기!!
     @Transactional
-    public void orderCancel(OrderRequest.CancelDTO requestDTO) {
+    public void orderCancel(List<OrderRequest.CancelDTO> requestDTO) {
         orderRepo.findByIdAndUpdateStatus(requestDTO);
     }
 
