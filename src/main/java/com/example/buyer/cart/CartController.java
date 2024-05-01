@@ -58,7 +58,7 @@ public class CartController {
 //        System.out.println("카트리스트 " + cartList);
         request.setAttribute("cartList", cartList);
 
-        return "/order/cart-form";
+        return "/cart/cart-form";
 
     }
 
