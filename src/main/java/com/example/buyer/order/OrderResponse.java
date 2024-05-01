@@ -117,6 +117,7 @@ public class OrderResponse {
         private String payment;
         private Integer sum;
         private Boolean status;
+        private String nowStatus;   //값 뿌릴려니까 false 값만 들어오길래.. 취소완료로 뿌려주려고 함
         private LocalDate createdAt;
         private String name;
         private Integer indexNum;
@@ -125,7 +126,7 @@ public class OrderResponse {
         private String buttonColor;
 
         @Builder
-        public ListDTO(Integer id, Integer userId, Integer price, Integer buyQty, String payment, Integer sum, Boolean status, LocalDate createdAt, String name, Integer indexNum) {
+        public ListDTO(Integer id, Integer userId, Integer price, Integer buyQty, String payment, Integer sum, Boolean status, String nowStatus, LocalDate createdAt, String name, Integer indexNum) {
             this.id = id;
             this.userId = userId;
             this.price = price;
@@ -133,6 +134,7 @@ public class OrderResponse {
             this.payment = payment;
             this.sum = sum;
             this.status = status;
+            this.nowStatus = nowStatus;
             this.createdAt = createdAt;
             this.name = name;
             this.indexNum = indexNum;

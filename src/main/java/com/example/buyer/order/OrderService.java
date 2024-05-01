@@ -85,12 +85,21 @@ public class OrderService {
         List<OrderResponse.ListDTO> orderList = orderRepo.findAllCancelOrder();
 
         //ssar 유저가 구매한 내역만 나와야함
-        //필터를 쓰는구나..............!!!!!!!!!!!!!!
-        List<OrderResponse.ListDTO> findUserOrderList = orderList.stream().filter(list ->
+        //필터를
+        List<OrderResponse.ListDTO> findUserOrderList = orderList.stream()
+                .filter(list ->
                         sessionUserId != null && sessionUserId.equals(list.getUserId()))
+//                listDTO
                 .map(item -> {
                     Integer sum = item.getPrice() * item.getBuyQty();
                     item.setSum(sum);
+                    return item;
+                })
+
+                .map(item -> {
+                    if (item.getStatus().equals(false)) {
+                        item.setNowStatus("취소완료");
+                    }
                     return item;
                 })
                 .collect(Collectors.toList());
