@@ -1,0 +1,61 @@
+{{> layout/header}}
+
+<style>
+    .offer-table th, .offer-table td {
+        text-align: center;
+        vertical-align: middle; /* 셀 내용을 수직 가운데 정렬 */
+    }
+
+    .notVisible {
+        visibility: hidden;
+    }
+
+</style>
+
+<div class="container">
+
+        <table class="table table-hover offer-table scroll" style="text-align: center; border-top:2px solid #ddd">
+            <br>
+            <h2>취소 목록</h2>
+            <br>
+            <!--        목록 -->
+            <thead>
+            <tr>
+                <th class="center-align col-1">No</th>
+                <th class="center-align col-2">상품명</th>
+                <th class="center-align col-1">수량</th>
+                <th class="center-align col-2">상품가격</th>
+                <th class="center-align col-2">결제방법</th>
+                <th class="center-align col-2">주문날짜</th>
+                <th class="center-align col-2">현재상태</th>
+            </tr>
+            </thead>
+            <!--        목록 끝-->
+
+            <!--        상품 테이블-->
+            <tbody>
+            {{#orderList}}
+                <tr class="offer-table my-cancel-list">
+                    <th scope="row">{{indexNum}}</th>
+                    <td>{{name}}</td>
+                    <td class="buyQty">{{buyQty}}</td>
+                    <td class="sum">{{sum}}</td>
+                    <td>{{payment}}</td>
+                    <td>{{createdAt}}</td>
+                    <td>
+                        <div class="notVisible">{{id}}</div>
+                        <div class="notVisible">{{status}}</div>
+                        <input type="checkbox" name="itemCheck" id="itemCheck" class="item-checkbox">
+                    </td>
+                </tr>
+            {{/orderList}}
+            </tbody>
+            <!--        상품 테이블 끝-->
+        </table>
+</div>
+
+<div style="margin-bottom: 15%"></div>
+
+<script src="/js/list.js"></script>
+
+{{> layout/footer}}

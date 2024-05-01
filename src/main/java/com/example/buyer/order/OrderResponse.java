@@ -85,7 +85,7 @@ public class OrderResponse {
             this.pName = pName;
             this.price = price;
             payCheck();
-            isOrderCancel();
+//            isOrderCancel();
         }
 
         public void payCheck() {
@@ -96,13 +96,13 @@ public class OrderResponse {
             }
         }
 
-        public void isOrderCancel() {
-            if ("주문취소".equals(status)) {
-                this.isNotCancel = false;
-//                System.out.println("나오니~~~??");
-            }
-
-        }
+//        public void isOrderCancel() {
+//            if ("주문취소".equals(status)) {
+//                this.isNotCancel = false;
+////                System.out.println("나오니~~~??");
+//            }
+//
+//        }
 
     }
 

@@ -73,9 +73,36 @@ public class OrderService {
             listNum.setIndexNum(indexNum--);
         }
 
+        return findUserOrderList;
 
+    }
+
+
+    //주문 취소 로직
+    public List<OrderResponse.ListDTO> orderCancelList(Integer sessionUserId) {
+        List<OrderResponse.ListDTO> orderList = orderRepo.findAllOrder();
+
+        //ssar 유저가 구매한 내역만 나와야함
+        //필터를 쓰는구나..............!!!!!!!!!!!!!!
+        List<OrderResponse.ListDTO> findUserOrderList = orderList.stream().filter(list ->
+                        sessionUserId != null && sessionUserId.equals(list.getUserId()))
+                .map(item -> {
+                    Integer sum = item.getPrice() * item.getBuyQty();
+                    item.setSum(sum);
+                    return item;
+                })
+                .collect(Collectors.toList());
+
+//        Integer sum = orderList.stream().mapToInt(value -> value.getPrice() * value.getBuyQty()).sum();
+
+        // 화면의 No용
+        Integer indexNum = findUserOrderList.size();
+        for (OrderResponse.ListDTO listNum : findUserOrderList) {
+            listNum.setIndexNum(indexNum--);
+        }
 
         return findUserOrderList;
 
     }
+
 }

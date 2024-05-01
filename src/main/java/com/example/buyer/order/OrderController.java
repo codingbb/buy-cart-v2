@@ -15,12 +15,26 @@ public class OrderController {
     private final OrderService orderService;
     private final HttpSession session;
 
+    //취소목록
+    @GetMapping("/order-cancel-list")
+    public String orderCancelList(HttpServletRequest request) {
+        User sessionUser = (User) session.getAttribute("sessionUser");
+
+        List<OrderResponse.ListDTO> orderList = orderService.orderCancelList(sessionUser.getId());
+//        System.out.println("오더 리스트 : " + orderList);
+        request.setAttribute("orderList", orderList);
+
+        return "/order/cancel-list";
+    }
+
+
+
     //주문 취소 로직
     @PostMapping("/order-cancel")
     public @ResponseBody String orderCancel(@RequestBody List<OrderRequest.CancelDTO> requestDTO) {
         System.out.println("주문 취소 DTO : " + requestDTO);
         orderService.orderCancel(requestDTO);
-        return "redirect:/order-list";
+        return "/order/cancel-list";
     }
 
     //내가 주문한 상품 상세보기 폼 //주문한 내역이 나와야함
