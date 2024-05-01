@@ -18,6 +18,8 @@ public class OrderService {
     @Transactional
     public void orderCancel(List<OrderRequest.CancelDTO> requestDTO) {
         orderRepo.findByIdAndUpdateStatus(requestDTO);
+
+
     }
 
 
@@ -80,7 +82,7 @@ public class OrderService {
 
     //주문 취소 로직
     public List<OrderResponse.ListDTO> orderCancelList(Integer sessionUserId) {
-        List<OrderResponse.ListDTO> orderList = orderRepo.findAllOrder();
+        List<OrderResponse.ListDTO> orderList = orderRepo.findAllCancelOrder();
 
         //ssar 유저가 구매한 내역만 나와야함
         //필터를 쓰는구나..............!!!!!!!!!!!!!!

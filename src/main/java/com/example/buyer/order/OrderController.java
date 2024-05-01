@@ -27,8 +27,6 @@ public class OrderController {
         return "/order/cancel-list";
     }
 
-
-
     //주문 취소 로직
     @PostMapping("/order-cancel")
     public @ResponseBody String orderCancel(@RequestBody List<OrderRequest.CancelDTO> requestDTO) {
@@ -53,7 +51,7 @@ public class OrderController {
         User sessionUser = (User) session.getAttribute("sessionUser");
 
         List<OrderResponse.ListDTO> orderList = orderService.orderList(sessionUser.getId());
-//        System.out.println("오더 리스트 : " + orderList);
+        System.out.println("오더 리스트 : " + orderList);
         request.setAttribute("orderList", orderList);
 
         return "/order/order-list";
