@@ -18,8 +18,6 @@ public class OrderService {
     @Transactional
     public void orderCancel(List<OrderRequest.CancelDTO> requestDTO) {
         orderRepo.findByIdAndUpdateStatus(requestDTO);
-
-
     }
 
 
@@ -85,7 +83,7 @@ public class OrderService {
         List<OrderResponse.ListDTO> orderList = orderRepo.findAllCancelOrder();
 
         //ssar 유저가 구매한 내역만 나와야함
-        //필터를
+        //필터를 써보고싶었어요
         List<OrderResponse.ListDTO> findUserOrderList = orderList.stream()
                 .filter(list ->
                         sessionUserId != null && sessionUserId.equals(list.getUserId()))

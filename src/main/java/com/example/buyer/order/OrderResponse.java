@@ -119,7 +119,7 @@ public class OrderResponse {
         private Boolean status;
         private String nowStatus;   //값 뿌릴려니까 false 값만 들어오길래.. 취소완료로 뿌려주려고 함
         private LocalDate createdAt;
-        private String name;
+        private String name;    //상품명
         private Integer indexNum;
 
         //버튼 구분이 안가서.. 색 변경하려고 넣어줌
