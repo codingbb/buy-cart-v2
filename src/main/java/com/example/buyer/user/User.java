@@ -26,9 +26,9 @@ public class User {
 
     @Column(length = 15)
     private String name;            //이름(성명)
-    private String compName;            //기업명(성명)
+//    private String compName;            //기업명(성명)
 
-    private String compNum;           //사업자등록번호
+//    private String compNum;           //사업자등록번호
 
     @Column(nullable = false)
     private String phone;           //전화번호
@@ -39,7 +39,7 @@ public class User {
     @Column(nullable = false)
     private String address;
 
-    private Integer role;       //개인 - 1, 기업 - 2
+//    private Integer role;       //개인 - 1, 기업 - 2
 
     @CreationTimestamp
     private LocalDateTime createdAt;

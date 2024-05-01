@@ -1,12 +1,9 @@
 package com.example.buyer.cart;
 
-import com.example.buyer._core.utils.ApiUtil;
-import com.example.buyer.product.ProductResponse;
 import com.example.buyer.user.User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
