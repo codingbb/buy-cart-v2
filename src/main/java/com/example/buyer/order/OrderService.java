@@ -58,7 +58,14 @@ public class OrderService {
         //필터를 쓰는구나..............!!!!!!!!!!!!!!
         List<OrderResponse.ListDTO> findUserOrderList = orderList.stream().filter(list ->
                 sessionUserId != null && sessionUserId.equals(list.getUserId()))
+                .map(item -> {
+                    Integer sum = item.getPrice() * item.getBuyQty();
+                    item.setSum(sum);
+                    return item;
+                })
                 .collect(Collectors.toList());
+
+//        Integer sum = orderList.stream().mapToInt(value -> value.getPrice() * value.getBuyQty()).sum();
 
         // 화면의 No용
         Integer indexNum = findUserOrderList.size();
@@ -66,6 +73,9 @@ public class OrderService {
             listNum.setIndexNum(indexNum--);
         }
 
+
+
         return findUserOrderList;
+
     }
 }

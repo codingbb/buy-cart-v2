@@ -112,10 +112,11 @@ public class OrderResponse {
     public static class ListDTO {
         private Integer id;
         private Integer userId;
+        private Integer price;
         private Integer buyQty;
         private String payment;
         private Integer sum;
-        private String status;
+        private Boolean status;
         private LocalDate createdAt;
         private String name;
         private Integer indexNum;
@@ -124,9 +125,10 @@ public class OrderResponse {
         private String buttonColor;
 
         @Builder
-        public ListDTO(Integer id, Integer userId, Integer buyQty, String payment, Integer sum, String status, LocalDate createdAt, String name, Integer indexNum) {
+        public ListDTO(Integer id, Integer userId, Integer price, Integer buyQty, String payment, Integer sum, Boolean status, LocalDate createdAt, String name, Integer indexNum) {
             this.id = id;
             this.userId = userId;
+            this.price = price;
             this.buyQty = buyQty;
             this.payment = payment;
             this.sum = sum;
@@ -134,17 +136,16 @@ public class OrderResponse {
             this.createdAt = createdAt;
             this.name = name;
             this.indexNum = indexNum;
-            buttonColor();
         }
 
-        //버튼 변경 클래스 용~
-        public void buttonColor() {
-             this.buttonColor = "btn btn-primary";
-            if ("주문취소".equals(status)) {
-                buttonColor = "btn btn-danger";
-            }
-
-        }
+//        //버튼 변경 클래스 용~
+//        public void buttonColor() {
+//             this.buttonColor = "btn btn-primary";
+//            if ("주문취소".equals(status)) {
+//                buttonColor = "btn btn-danger";
+//            }
+//
+//        }
 
     }
 
