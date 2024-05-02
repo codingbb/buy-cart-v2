@@ -1,4 +1,4 @@
-package com.example.buyer.cart;
+package com.example.buyer.orderItem;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -9,23 +9,24 @@ import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @Data
-@Table(name = "cart_tb")
+@Table(name = "order_item_tb")
 @Entity
-public class Cart {
+public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private Integer userId;
     private Integer productId;
 
     //구매 수량
     private Integer buyQty;
+    private Integer sum;    //고정값이라 받아옴. 값이 바뀌는 order같은건 price*qty로 연산하자
 
-    //sum은 x. 연산해서 넣어라
+    private Integer orderId;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
+
 
 
 }
