@@ -51,7 +51,7 @@ public class OrderController {
         User sessionUser = (User) session.getAttribute("sessionUser");
 
         List<OrderResponse.ListDTO> orderList = orderService.orderList(sessionUser.getId());
-        System.out.println("오더 리스트 : " + orderList);
+//        System.out.println("오더 리스트 : " + orderList);
         request.setAttribute("orderList", orderList);
 
         return "/order/order-list";
@@ -72,7 +72,7 @@ public class OrderController {
     @GetMapping("/order-save-form")
     public String orderCheckForm(OrderRequest.SaveOrderDTO requestDTO, HttpServletRequest request) {
         User sessionUser = (User) session.getAttribute("sessionUser");
-        System.out.println("주문폼 확인용 " + requestDTO);
+//        System.out.println("주문폼 확인용 " + requestDTO);
 
         //dto 사용해서 한 번에 다 담기
         OrderResponse.SaveFormDTO orderCheck = orderService.orderCheck(sessionUser.getId(), requestDTO);

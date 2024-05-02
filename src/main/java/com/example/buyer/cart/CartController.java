@@ -18,9 +18,9 @@ public class CartController {
 
     //장바구니 수량 변경
     @PostMapping("/cart/update")
-    public String update(CartRequest.UpdateDTO requestDTO) {
-//        System.out.println(requestDTO);
-        cartService.updateQty(requestDTO);
+    public @ResponseBody String update(@RequestBody List<CartRequest.UpdateDTO> requestDTOs) {
+        System.out.println("장바구니 값 받나요? : " + requestDTOs);
+//        cartService.updateQty(requestDTOs);
 
         return "redirect:/cart-form";
     }
@@ -38,7 +38,6 @@ public class CartController {
     @PostMapping("/cart/save")
     public String save(CartRequest.SaveDTO requestDTO) {
         User sessionUser = (User) session.getAttribute("sessionUser");
-
         Boolean cart = cartService.save(sessionUser.getId(), requestDTO);
 
         if (cart == true) {
@@ -55,7 +54,7 @@ public class CartController {
         User sessionUser = (User) session.getAttribute("sessionUser");
 
         List<CartResponse.CartDTO> cartList = cartService.getCartList(sessionUser.getId());
-//        System.out.println("카트리스트 " + cartList);
+        System.out.println("카트리스트 " + cartList);
         request.setAttribute("cartList", cartList);
 
         return "/cart/cart-form";

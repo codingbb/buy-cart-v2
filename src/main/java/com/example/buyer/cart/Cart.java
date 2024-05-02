@@ -22,6 +22,8 @@ public class Cart {
     //구매 수량
     private Integer buyQty;
 
+    private Boolean status;     // false(0) 선택x, true(1) 선택o
+
     //sum은 x. 연산해서 넣어라  //price랑 productName은 넣는게 나을까 ? ? join안하게?
 
     @CreationTimestamp

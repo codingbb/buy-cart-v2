@@ -58,7 +58,6 @@ public class OrderRepository {
         Query query = em.createNativeQuery(q, Product.class);
         query.setParameter(1, id);
         Product product = (Product) query.getSingleResult();
-        System.out.println("여기서 지금 고정값 밖에 조회못함. 선택한 값으로 안들어오고 있음 : " + product);
         return product;
     }
 
