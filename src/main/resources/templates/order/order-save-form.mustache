@@ -17,28 +17,30 @@
 
                     <form action="/order-save" method="post" class="needs-validation" novalidate="">
                         <!--  목록 리스트 1-->
+                        {{#orderList}}
                         <ul class="list-group mb-3">
                             <li class="list-group-item d-flex justify-content-between lh-sm">
-                                <input type="hidden" name="userId" value="{{order.userId}}">
-                                <input type="hidden" name="productId" value="{{order.productId}}">
+                                <input type="hidden" name="userId" value="{{userId}}">
+
 <!--                                <input type="hidden" name="status" value="주문완료">-->
                                 <div>
                                     <input style="font-weight: bold" type="text" class="form-control" id="pName"
-                                           name="pName" value="상품명" readonly>
+                                           name="pName" value="{{pName}}" readonly>
                                     <input type="text" class="form-control" id="buyQty" name="buyQty"
-                                           value="30"
+                                           value="{{buyQty}}"
                                            readonly>
                                 </div>
-                                <input type="text" class="form-control" id="price" name="price" value="5000"
+                                <input type="text" class="form-control" id="price" name="price" value="{{sum}}"
                                        readonly>
                             </li>
+                        {{/orderList}}
                             <!--    목록 리스트 1-->
 
                             <!--  합계 -->
                             <li class="list-group-item d-flex justify-content-between">
-                                <span>합계 (원)</span>
-                                <input type="text" class="form-control" id="sum" name="sum" value="15000"
-                                       readonly>
+                                <span>합계 {{totalSum}}(원)</span>
+                                <input type="hidden" name="totalSum" value="{{totalSum}}" readonly>
+
                             </li>
                             <!--   합계 -->
                         </ul>
@@ -54,15 +56,15 @@
                         <div class="col-md-12">
                             <div class="mb-3 mt-3 form-group">
                                 이름 <input id="name" name="name" type="text" class="form-control"
-                                          value="김김김">
+                                          value="{{user.name}}">
                             </div>
                             <div class="mb-3 mt-3 form-group">
                                 주소 <input id="address" name="address" type="text" class="form-control"
-                                          value="최강기아">
+                                          value="{{user.address}}">
                             </div>
                             <div class="mb-3 mt-3 form-group">
                                 전화번호 <input id="phone" name="phone" type="text" class="form-control"
-                                            value="010777773333">
+                                            value="{{user.phone}}">
                             </div>
                         </div>
 

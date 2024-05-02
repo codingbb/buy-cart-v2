@@ -19,14 +19,17 @@ public class OrderResponse {
         private String pName;
         private Integer price;
 
+        private Integer sum;
+
         @Builder
-        public SaveFormDTO(Integer cartId, Integer userId, Integer buyQty, Boolean status, String pName, Integer price) {
+        public SaveFormDTO(Integer cartId, Integer userId, Integer buyQty, Boolean status, String pName, Integer price, Integer sum) {
             this.cartId = cartId;
             this.userId = userId;
             this.buyQty = buyQty;
             this.status = status;
             this.pName = pName;
             this.price = price;
+            this.sum = sum;
         }
     }
 

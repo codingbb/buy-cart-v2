@@ -18,8 +18,7 @@ import java.util.List;
 public class OrderRepository {
     private final EntityManager em;
 
-    //order-save-form에 장바구니에 있는 내역만
-    public List<OrderResponse.SaveFormDTO> findCartStatus(Integer id) {
+    public List<OrderResponse.SaveFormDTO> findStatusAndUserId(Integer sessionUserId) {
         String q = """
                 select c.id, c.user_id, c.buy_qty, c.status, p.name, p.price 
                 from cart_tb c
@@ -29,8 +28,8 @@ public class OrderRepository {
                 """;
 
         Query query = em.createNativeQuery(q);
-        query.setParameter(1, 1);
-        query.setParameter(2, id);
+        query.setParameter(1, true);
+        query.setParameter(2, sessionUserId);
 
         List<Object[]> rows = query.getResultList();
         List<OrderResponse.SaveFormDTO> orderList = new ArrayList<>();
@@ -54,6 +53,7 @@ public class OrderRepository {
                     .build();
 
             orderList.add(listDTO);
+
         }
 
         return orderList;
@@ -64,18 +64,18 @@ public class OrderRepository {
     //주문 취소 쿼리문 join 쓰고싶어서 씀 (product_tb 수량 변경, order_tb 상태값 변경)
     public void findByIdAndUpdateStatus(List<OrderRequest.CancelDTO> requestDTO) {
         for (OrderRequest.CancelDTO request : requestDTO) {
-        String q = """
-                update order_tb o 
-                inner join product_tb p on o.product_id = p.id 
-                set o.status = ?, p.qty = qty + ? where o.id = ?;
-                """;
+            String q = """
+                    update order_tb o 
+                    inner join product_tb p on o.product_id = p.id 
+                    set o.status = ?, p.qty = qty + ? where o.id = ?;
+                    """;
 
-        Query query = em.createNativeQuery(q);
+            Query query = em.createNativeQuery(q);
 
-        query.setParameter(1, request.getStatus());   //false 고정값으로 받아와도 되는걸까..
-        query.setParameter(2, request.getBuyQty());
-        query.setParameter(3, request.getOrderId());
-        query.executeUpdate();
+            query.setParameter(1, request.getStatus());   //false 고정값으로 받아와도 되는걸까..
+            query.setParameter(2, request.getBuyQty());
+            query.setParameter(3, request.getOrderId());
+            query.executeUpdate();
 
         }
     }

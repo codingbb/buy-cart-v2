@@ -10,10 +10,10 @@ public class OrderRequest {
     //save-order-form DTO 주문하기 전 나오는 페이지
     @Data
     public static class SaveOrderDTO {
+        private Integer cartId;
         private Integer productId;
         private Integer buyQty;
-        private String pName;
-        private Integer price;
+        private Boolean status;
 
     }
 

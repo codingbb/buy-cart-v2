@@ -69,18 +69,20 @@ public class OrderController {
 
     // 주문하려는 물품 확인 폼
     @GetMapping("/order-save-form")
-    public String orderCheckForm(OrderRequest.SaveOrderDTO requestDTO, HttpServletRequest request) {
+    public String orderCheckForm(HttpServletRequest request) {
         User sessionUser = (User) session.getAttribute("sessionUser");
-//        System.out.println("주문폼 확인용 " + requestDTO);
+        User user = orderService.findUser(sessionUser.getId());
 
-        List<OrderResponse.SaveFormDTO> orderList = orderService.orderSaveCart(sessionUser.getId());
+        List<OrderResponse.SaveFormDTO> orderList = orderService.orderCartList(sessionUser.getId());
+        System.out.println("일단이거만찍어보자" + orderList);
 
+        //totalSum 계산용...
+        Integer totalSum = orderList.stream().mapToInt(value -> value.getSum()).sum();
 
-        System.out.println("dmdkdkdkdkr : " + orderList);
-        //dto 사용해서 한 번에 다 담기
-//        OrderResponse.SaveFormDTO orderCheck = orderService.orderCheck(sessionUser.getId(), requestDTO);
-//        System.out.println("주문폼 dto 값 확인 : " + orderCheck);
-//        request.setAttribute("order", orderCheck);
+        // 모델에(request) 담기 .... 한 번에 담고싶다  !!
+        request.setAttribute("orderList", orderList);
+        request.setAttribute("totalSum", totalSum);
+        request.setAttribute("user", user);
 
         return "/order/order-save-form";
     }
