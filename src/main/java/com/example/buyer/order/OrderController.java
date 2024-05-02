@@ -16,16 +16,16 @@ public class OrderController {
     private final HttpSession session;
 
     //취소목록
-    @GetMapping("/order-cancel-list")
-    public String orderCancelList(HttpServletRequest request) {
-        User sessionUser = (User) session.getAttribute("sessionUser");
-
-        List<OrderResponse.ListDTO> orderList = orderService.orderCancelList(sessionUser.getId());
-//        System.out.println("오더 리스트 : " + orderList);
-        request.setAttribute("orderList", orderList);
-
-        return "/order/cancel-list";
-    }
+//    @GetMapping("/order-cancel-list")
+//    public String orderCancelList(HttpServletRequest request) {
+//        User sessionUser = (User) session.getAttribute("sessionUser");
+//
+//        List<OrderResponse.ListDTO> orderList = orderService.orderCancelList(sessionUser.getId());
+////        System.out.println("오더 리스트 : " + orderList);
+//        request.setAttribute("orderList", orderList);
+//
+//        return "/order/cancel-list";
+//    }
 
     //주문 취소 로직
     @PostMapping("/order-cancel")
@@ -46,16 +46,16 @@ public class OrderController {
 
 
     //내 구매목록 리스트
-    @GetMapping("/order-list")
-    public String orderList(HttpServletRequest request) {
-        User sessionUser = (User) session.getAttribute("sessionUser");
-
-        List<OrderResponse.ListDTO> orderList = orderService.orderList(sessionUser.getId());
-//        System.out.println("오더 리스트 : " + orderList);
-        request.setAttribute("orderList", orderList);
-
-        return "/order/order-list";
-    }
+//    @GetMapping("/order-list")
+//    public String orderList(HttpServletRequest request) {
+//        User sessionUser = (User) session.getAttribute("sessionUser");
+//
+//        List<OrderResponse.ListDTO> orderList = orderService.orderList(sessionUser.getId());
+////        System.out.println("오더 리스트 : " + orderList);
+//        request.setAttribute("orderList", orderList);
+//
+//        return "/order/order-list";
+//    }
 
     // 주문하기 = 구매하기
     @PostMapping("/order-save")

@@ -106,19 +106,27 @@ public class OrderRepository {
 
 
     //구매하기 !!
-    public void save(OrderRequest.SaveDTO requestDTO) {
+    public Integer save(OrderRequest.SaveDTO requestDTO) {
         String q = """
-                insert into order_tb (user_id, product_id, price, buy_qty, status, payment, created_at) values (?, ?, ?, ?, ?, ?, now());
+                insert into order_tb (user_id, product_id, status, payment, created_at) 
+                values (?, ?, ?, ?, now())
                 """;
         Query query = em.createNativeQuery(q);
         query.setParameter(1, requestDTO.getUserId());
         query.setParameter(2, requestDTO.getProductId());
-        query.setParameter(3, requestDTO.getPrice());
-        query.setParameter(4, requestDTO.getBuyQty());
-        query.setParameter(5, requestDTO.getStatus());
-        query.setParameter(6, requestDTO.getPayment());
+        query.setParameter(3, requestDTO.getStatus());
+        query.setParameter(4, requestDTO.getPayment());
 
         query.executeUpdate();
+
+        String a = """
+                select max(id) from order_tb
+                """;
+
+        Query query1 = em.createNativeQuery(a);
+        Integer orderId = (Integer) query1.getSingleResult();
+
+        return orderId;
     }
 
     //상품을 구매하면 재고 차감
@@ -178,98 +186,98 @@ public class OrderRepository {
     }
 
     //order-cancel-list 조회용
-    public List<OrderResponse.ListDTO> findAllCancelOrder() {
-        String q = """
-                select o.id, o.user_id, o.price, o.buy_qty, o.payment, o.status, o.created_at, p.name 
-                from order_tb o 
-                inner join product_tb p on o.product_id = p.id 
-                where o.status = ?
-                order by o.id desc;
-                """;
-        Query query = em.createNativeQuery(q);
-        query.setParameter(1, 0);
-
-        //Object 배열 타입으로 받아야함.
-        List<Object[]> rows = query.getResultList();
-        List<OrderResponse.ListDTO> orderList = new ArrayList<>();
-
-        for (Object[] row : rows) {
-            //listDTO
-            Integer id = (Integer) row[0];
-            Integer userId = (Integer) row[1];
-            Integer price = (Integer) row[2];
-            Integer buyQty = (Integer) row[3];
-            String payment = (String) row[4];
-            Boolean status = (Boolean) row[5];
-            LocalDate createdAt = ((Timestamp) row[6]).toLocalDateTime().toLocalDate();
-            String name = (String) row[7];
-
-            OrderResponse.ListDTO listDTO = OrderResponse.ListDTO.builder()
-                    .id(id)
-                    .userId(userId)
-                    .price(price)
-                    .buyQty(buyQty)
-                    .payment(payment)
-                    .status(status)
-                    .createdAt(createdAt)
-                    .name(name)
-                    .build();
-
-            orderList.add(listDTO);
-        }
-
-//        System.out.println("db값 확인용..." + orderList);
-
-        return orderList;
-
-    }
+//    public List<OrderResponse.ListDTO> findAllCancelOrder() {
+//        String q = """
+//                select o.id, o.user_id, o.price, o.buy_qty, o.payment, o.status, o.created_at, p.name
+//                from order_tb o
+//                inner join product_tb p on o.product_id = p.id
+//                where o.status = ?
+//                order by o.id desc;
+//                """;
+//        Query query = em.createNativeQuery(q);
+//        query.setParameter(1, 0);
+//
+//        //Object 배열 타입으로 받아야함.
+//        List<Object[]> rows = query.getResultList();
+//        List<OrderResponse.ListDTO> orderList = new ArrayList<>();
+//
+//        for (Object[] row : rows) {
+//            //listDTO
+//            Integer id = (Integer) row[0];
+//            Integer userId = (Integer) row[1];
+//            Integer price = (Integer) row[2];
+//            Integer buyQty = (Integer) row[3];
+//            String payment = (String) row[4];
+//            Boolean status = (Boolean) row[5];
+//            LocalDate createdAt = ((Timestamp) row[6]).toLocalDateTime().toLocalDate();
+//            String name = (String) row[7];
+//
+//            OrderResponse.ListDTO listDTO = OrderResponse.ListDTO.builder()
+//                    .id(id)
+//                    .userId(userId)
+//                    .price(price)
+//                    .buyQty(buyQty)
+//                    .payment(payment)
+//                    .status(status)
+//                    .createdAt(createdAt)
+//                    .name(name)
+//                    .build();
+//
+//            orderList.add(listDTO);
+//        }
+//
+////        System.out.println("db값 확인용..." + orderList);
+//
+//        return orderList;
+//
+//    }
 
 
     // TODO: 돌아가는지 테스트 좀 하고 써라! 까먹지마~!!
     //order-list 조회용
-    public List<OrderResponse.ListDTO> findAllOrder() {
-        String q = """
-                select o.id, o.user_id, o.price, o.buy_qty, o.payment, o.status, o.created_at, p.name 
-                from order_tb o 
-                inner join product_tb p on o.product_id = p.id 
-                where o.status = ?
-                order by o.id desc;
-                """;
-        Query query = em.createNativeQuery(q);
-        query.setParameter(1, 1);
-
-        //Object 배열 타입으로 받아야함.
-        List<Object[]> rows = query.getResultList();
-        List<OrderResponse.ListDTO> orderList = new ArrayList<>();
-
-        for (Object[] row : rows) {
-            //listDTO
-            Integer id = (Integer) row[0];
-            Integer userId = (Integer) row[1];
-            Integer price = (Integer) row[2];
-            Integer buyQty = (Integer) row[3];
-            String payment = (String) row[4];
-            Boolean status = (Boolean) row[5];
-            LocalDate createdAt = ((Timestamp) row[6]).toLocalDateTime().toLocalDate();
-            String name = (String) row[7];
-
-            OrderResponse.ListDTO listDTO = OrderResponse.ListDTO.builder()
-                    .id(id)
-                    .userId(userId)
-                    .price(price)
-                    .buyQty(buyQty)
-                    .payment(payment)
-                    .status(status)
-                    .createdAt(createdAt)
-                    .name(name)
-                    .build();
-
-            orderList.add(listDTO);
-        }
-
-//        System.out.println("db값 확인용..." + orderList);
-
-        return orderList;
-
-    }
+//    public List<OrderResponse.ListDTO> findAllOrder() {
+//        String q = """
+//                select o.id, o.user_id, o.price, o.buy_qty, o.payment, o.status, o.created_at, p.name
+//                from order_tb o
+//                inner join product_tb p on o.product_id = p.id
+//                where o.status = ?
+//                order by o.id desc;
+//                """;
+//        Query query = em.createNativeQuery(q);
+//        query.setParameter(1, 1);
+//
+//        //Object 배열 타입으로 받아야함.
+//        List<Object[]> rows = query.getResultList();
+//        List<OrderResponse.ListDTO> orderList = new ArrayList<>();
+//
+//        for (Object[] row : rows) {
+//            //listDTO
+//            Integer id = (Integer) row[0];
+//            Integer userId = (Integer) row[1];
+//            Integer price = (Integer) row[2];
+//            Integer buyQty = (Integer) row[3];
+//            String payment = (String) row[4];
+//            Boolean status = (Boolean) row[5];
+//            LocalDate createdAt = ((Timestamp) row[6]).toLocalDateTime().toLocalDate();
+//            String name = (String) row[7];
+//
+//            OrderResponse.ListDTO listDTO = OrderResponse.ListDTO.builder()
+//                    .id(id)
+//                    .userId(userId)
+//                    .price(price)
+//                    .buyQty(buyQty)
+//                    .payment(payment)
+//                    .status(status)
+//                    .createdAt(createdAt)
+//                    .name(name)
+//                    .build();
+//
+//            orderList.add(listDTO);
+//        }
+//
+////        System.out.println("db값 확인용..." + orderList);
+//
+//        return orderList;
+//
+//    }
 }

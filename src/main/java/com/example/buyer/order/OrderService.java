@@ -14,6 +14,16 @@ import java.util.stream.Collectors;
 public class OrderService {
     private final OrderRepository orderRepo;
 
+    //구매하기 로직
+    @Transactional
+    public void saveOrder(OrderRequest.SaveDTO requestDTO) {
+        System.out.println("에헤헤" + requestDTO);
+        Integer orderId = orderRepo.save(requestDTO);
+        orderRepo.updateQty(requestDTO);
+
+
+    }
+
     //주문 취소하기!!
     @Transactional
     public void orderCancel(List<OrderRequest.CancelDTO> requestDTO) {
@@ -50,76 +60,69 @@ public class OrderService {
 
     }
 
-    //구매하기 로직
-    @Transactional
-    public void saveOrder(OrderRequest.SaveDTO requestDTO) {
-        orderRepo.save(requestDTO);
-        orderRepo.updateQty(requestDTO);
-
-    }
 
     //내 구매목록 로직
-    public List<OrderResponse.ListDTO> orderList(Integer sessionUserId) {
-        List<OrderResponse.ListDTO> orderList = orderRepo.findAllOrder();
-
-        //ssar 유저가 구매한 내역만 나와야함
-        //필터를 쓰는구나..............!!!!!!!!!!!!!!
-        List<OrderResponse.ListDTO> findUserOrderList = orderList.stream().filter(list ->
-                sessionUserId != null && sessionUserId.equals(list.getUserId()))
-                .map(item -> {
-                    Integer sum = item.getPrice() * item.getBuyQty();
-                    item.setSum(sum);
-                    return item;
-                })
-                .collect(Collectors.toList());
-
-//        Integer sum = orderList.stream().mapToInt(value -> value.getPrice() * value.getBuyQty()).sum();
-
-        // 화면의 No용
-        Integer indexNum = findUserOrderList.size();
-        for (OrderResponse.ListDTO listNum : findUserOrderList) {
-            listNum.setIndexNum(indexNum--);
-        }
-
-        return findUserOrderList;
-
-    }
-
-
-    //주문 취소 로직
-    public List<OrderResponse.ListDTO> orderCancelList(Integer sessionUserId) {
-        List<OrderResponse.ListDTO> orderList = orderRepo.findAllCancelOrder();
-
-        //ssar 유저가 구매한 내역만 나와야함
-        //필터를 써보고싶었어요
-        List<OrderResponse.ListDTO> findUserOrderList = orderList.stream()
-                .filter(list ->
-                        sessionUserId != null && sessionUserId.equals(list.getUserId()))
-//                listDTO
-                .map(item -> {
-                    Integer sum = item.getPrice() * item.getBuyQty();
-                    item.setSum(sum);
-                    return item;
-                })
-
-                .map(item -> {
-                    if (item.getStatus().equals(false)) {
-                        item.setNowStatus("취소완료");
-                    }
-                    return item;
-                })
-                .collect(Collectors.toList());
-
-//        Integer sum = orderList.stream().mapToInt(value -> value.getPrice() * value.getBuyQty()).sum();
-
-        // 화면의 No용
-        Integer indexNum = findUserOrderList.size();
-        for (OrderResponse.ListDTO listNum : findUserOrderList) {
-            listNum.setIndexNum(indexNum--);
-        }
-
-        return findUserOrderList;
-
-    }
+//    public List<OrderResponse.ListDTO> orderList(Integer sessionUserId) {
+//        List<OrderResponse.ListDTO> orderList = orderRepo.findAllOrder();
+//
+//        //ssar 유저가 구매한 내역만 나와야함
+//        //필터를 쓰는구나..............!!!!!!!!!!!!!!
+//        List<OrderResponse.ListDTO> findUserOrderList = orderList.stream().filter(list ->
+//                sessionUserId != null && sessionUserId.equals(list.getUserId()))
+//                .map(item -> {
+//                    Integer sum = item.getPrice() * item.getBuyQty();
+//                    item.setSum(sum);
+//                    return item;
+//                })
+//                .collect(Collectors.toList());
+//
+////        Integer sum = orderList.stream().mapToInt(value -> value.getPrice() * value.getBuyQty()).sum();
+//
+//        // 화면의 No용
+//        Integer indexNum = findUserOrderList.size();
+//        for (OrderResponse.ListDTO listNum : findUserOrderList) {
+//            listNum.setIndexNum(indexNum--);
+//        }
+//
+//        return findUserOrderList;
+//
+//    }
+//
+//
+//    //주문 취소 로직
+//    public List<OrderResponse.ListDTO> orderCancelList(Integer sessionUserId) {
+//        List<OrderResponse.ListDTO> orderList = orderRepo.findAllCancelOrder();
+//
+//        //ssar 유저가 구매한 내역만 나와야함
+//        //필터를 써보고싶었어요
+//        List<OrderResponse.ListDTO> findUserOrderList = orderList.stream()
+//                .filter(list ->
+//                        sessionUserId != null && sessionUserId.equals(list.getUserId()))
+////                listDTO
+//                .map(item -> {
+//                    Integer sum = item.getPrice() * item.getBuyQty();
+//                    item.setSum(sum);
+//                    return item;
+//                })
+//
+//                .map(item -> {
+//                    if (item.getStatus().equals(false)) {
+//                        item.setNowStatus("취소완료");
+//                    }
+//                    return item;
+//                })
+//                .collect(Collectors.toList());
+//
+////        Integer sum = orderList.stream().mapToInt(value -> value.getPrice() * value.getBuyQty()).sum();
+//
+//        // 화면의 No용
+//        Integer indexNum = findUserOrderList.size();
+//        for (OrderResponse.ListDTO listNum : findUserOrderList) {
+//            listNum.setIndexNum(indexNum--);
+//        }
+//
+//        return findUserOrderList;
+//
+//    }
 
 }

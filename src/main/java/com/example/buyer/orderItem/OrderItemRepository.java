@@ -1,6 +1,8 @@
 package com.example.buyer.orderItem;
 
+import com.example.buyer.order.OrderRequest;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -8,5 +10,20 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class OrderItemRepository {
     private final EntityManager em;
+
+    public void save(OrderRequest.SaveDTO requestDTO) {
+        String q = """
+                insert into order_item_tb (buy_qty, order_id, product_id, sum, created_at) 
+                values (?, ?, ?, ?, now());
+                """;
+        Query query = em.createNativeQuery(q);
+        query.setParameter(1, requestDTO.getUserId());
+        query.setParameter(2, requestDTO.getProductId());
+        query.setParameter(3, requestDTO.getStatus());
+        query.setParameter(4, requestDTO.getPayment());
+
+        query.executeUpdate();
+    }
+
 
 }
