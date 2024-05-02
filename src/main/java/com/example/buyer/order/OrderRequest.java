@@ -5,6 +5,8 @@ import com.example.buyer.user.User;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.List;
+
 public class OrderRequest {
 
     //save-order-form DTO 주문하기 전 나오는 페이지
@@ -33,20 +35,18 @@ public class OrderRequest {
     public static class SaveDTO {
         // user 들고 오는 부분
         private Integer userId;
-        private String name;
-        private String address;
-        private String phone;
-        private String payment;
 
         //product 들고 오는 부분
-        private Integer productId;
-        private String pName;
-        private Integer buyQty;    //선택한 수량
-        private Integer price;  //계산된 가격
+        private List<Integer> productId;
+        private List<String> pName;
+        private List<Integer> buyQty;    //선택한 수량
+        private List<Integer> price;  //계산된 가격
 
         //order에 넣는 부분
         private Integer sum; //합계
         private Boolean status;
+
+
     }
 
 }

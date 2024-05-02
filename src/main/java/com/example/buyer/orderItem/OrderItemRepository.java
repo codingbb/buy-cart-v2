@@ -11,19 +11,20 @@ import org.springframework.stereotype.Repository;
 public class OrderItemRepository {
     private final EntityManager em;
 
-    public void save(OrderRequest.SaveDTO requestDTO) {
-        String q = """
-                insert into order_item_tb (buy_qty, order_id, product_id, sum, created_at) 
+    public void save(OrderRequest.SaveDTO requestDTO, Integer orderId, Integer sum) {
+        for (int i = 0; i < requestDTO.getPName().size(); i++) {
+
+            String q = """
+                insert into order_item_tb (buy_qty, order_id, product_id, sum, created_at)
                 values (?, ?, ?, ?, now());
                 """;
-        Query query = em.createNativeQuery(q);
-        query.setParameter(1, requestDTO.getUserId());
-        query.setParameter(2, requestDTO.getProductId());
-        query.setParameter(3, requestDTO.getStatus());
-        query.setParameter(4, requestDTO.getPayment());
+            Query query = em.createNativeQuery(q);
+            query.setParameter(1, requestDTO.getBuyQty().get(i));
+            query.setParameter(2, orderId);
+            query.setParameter(3, requestDTO.getProductId().get(i));
+            query.setParameter(4, sum);
 
-        query.executeUpdate();
+            query.executeUpdate();
+        }
     }
-
-
 }

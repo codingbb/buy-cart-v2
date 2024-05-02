@@ -1,5 +1,6 @@
 package com.example.buyer.order;
 
+import com.example.buyer.orderItem.OrderItemRepository;
 import com.example.buyer.product.Product;
 import com.example.buyer.user.User;
 import jakarta.transaction.Transactional;
@@ -13,14 +14,21 @@ import java.util.stream.Collectors;
 @Service
 public class OrderService {
     private final OrderRepository orderRepo;
+    private final OrderItemRepository orderItemRepo;
 
     //구매하기 로직
     @Transactional
     public void saveOrder(OrderRequest.SaveDTO requestDTO) {
-        System.out.println("에헤헤" + requestDTO);
+        System.out.println("으악" + requestDTO);
         Integer orderId = orderRepo.save(requestDTO);
-        orderRepo.updateQty(requestDTO);
 
+        Integer sum = requestDTO.getPrice().stream().mapToInt(value -> value.intValue()).sum();
+        requestDTO.setSum(sum);
+
+        orderItemRepo.save(requestDTO, orderId, requestDTO.getSum());
+
+        //좀 나중에
+//        orderRepo.updateQty(requestDTO);
 
     }
 

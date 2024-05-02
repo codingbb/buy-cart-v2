@@ -20,7 +20,7 @@ public class OrderRepository {
 
     public List<OrderResponse.SaveFormDTO> findStatusAndUserId(Integer sessionUserId) {
         String q = """
-                select c.id, c.user_id, c.buy_qty, c.status, p.name, p.price 
+                select c.id, c.user_id, c.product_id, c.buy_qty, c.status, p.name, p.price 
                 from cart_tb c
                 inner join product_tb p 
                 on c.product_id = p.id 
@@ -38,14 +38,16 @@ public class OrderRepository {
             //listDTO
             Integer cartId = (Integer) row[0];
             Integer userId = (Integer) row[1];
-            Integer buyQty = (Integer) row[2];
-            Boolean status = (Boolean) row[3];
-            String pName = (String) row[4];
-            Integer price = (Integer) row[5];
+            Integer productId = (Integer) row[2];
+            Integer buyQty = (Integer) row[3];
+            Boolean status = (Boolean) row[4];
+            String pName = (String) row[5];
+            Integer price = (Integer) row[6];
 
             OrderResponse.SaveFormDTO listDTO = OrderResponse.SaveFormDTO.builder()
                     .cartId(cartId)
                     .userId(userId)
+                    .productId(productId)
                     .buyQty(buyQty)
                     .status(status)
                     .pName(pName)
@@ -108,14 +110,11 @@ public class OrderRepository {
     //구매하기 !!
     public Integer save(OrderRequest.SaveDTO requestDTO) {
         String q = """
-                insert into order_tb (user_id, product_id, status, payment, created_at) 
-                values (?, ?, ?, ?, now())
+                insert into order_tb (user_id, created_at) 
+                values (?, now())
                 """;
         Query query = em.createNativeQuery(q);
         query.setParameter(1, requestDTO.getUserId());
-        query.setParameter(2, requestDTO.getProductId());
-        query.setParameter(3, requestDTO.getStatus());
-        query.setParameter(4, requestDTO.getPayment());
 
         query.executeUpdate();
 
@@ -130,15 +129,15 @@ public class OrderRepository {
     }
 
     //상품을 구매하면 재고 차감
-    public void updateQty(OrderRequest.SaveDTO requestDTO) {
-        String q = """
-                update product_tb set qty = qty - ? where id = ?
-                """;
-        Query query = em.createNativeQuery(q);
-        query.setParameter(1, requestDTO.getBuyQty());
-        query.setParameter(2, requestDTO.getProductId());
-        query.executeUpdate();
-    }
+//    public void updateQty(OrderRequest.SaveDTO requestDTO) {
+//        String q = """
+//                update product_tb set qty = qty - ? where id = ?
+//                """;
+//        Query query = em.createNativeQuery(q);
+//        query.setParameter(1, requestDTO.getBuyQty());
+//        query.setParameter(2, requestDTO.getProductId());
+//        query.executeUpdate();
+//    }
 
     //주문내역 폼 (order-detail-form) 조회용
     public OrderResponse.DetailDTO findUserProductByOrderId(Integer orderId) {

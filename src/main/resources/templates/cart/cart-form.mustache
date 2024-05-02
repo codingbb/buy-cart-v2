@@ -104,7 +104,7 @@
                 <form action="/order-save-form" method="get">
                     {{#cartList}}
                         <input type="hidden" name="cartId" value="{{id}}">
-                        <input type="hidden" name="productId" value="{{productId}}">
+                        <div class="notVisible">{{productId}}</div>
                         <input type="hidden" name="buyQty" value="{{buyQty}}">
                     {{/cartList}}
                     <button type="submit" class="btn btn-primary" id="purchaseButton">구매하기</button>
