@@ -35,11 +35,11 @@ public class CartController {
 
 
     //장바구니에 담기
-    @PostMapping("/cart")
-    public String save(@RequestParam("productId") Integer productId, @RequestParam("buyQty") Integer buyQty) {
+    @PostMapping("/cart/save")
+    public String save(CartRequest.SaveDTO requestDTO) {
         User sessionUser = (User) session.getAttribute("sessionUser");
 
-        Boolean cart = cartService.save(sessionUser.getId(), productId, buyQty);
+        Boolean cart = cartService.save(sessionUser.getId(), requestDTO);
 
         if (cart == true) {
             return "redirect:/cart-form";

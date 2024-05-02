@@ -12,7 +12,7 @@
         <!-- 상품 정보 입력 -->
         <div class="col-lg-6 px-xl-10">
 
-            <form action="/order-save-form" method="get">
+            <form action="/cart/save" method="post">
                 <input type="hidden" name="productId" value="{{product.id}}">
 
                 <div class="mb-3 mt-3">
@@ -29,15 +29,13 @@
 
                 <!-- 구매하기 장바구니 버튼 -->
                 <div class="d-flex justify-content-center">
-                    <button type="submit" class="btn btn-primary mt-3">구매하기</button>
 
-            </form>
+                    <input type="hidden" name="productId" value="{{product.id}}">
+                    <!--  hidden이라서 값 반영이 동적으로 안 된다는 듯.. 자바 스크립트로 연결시켜서 가져와야함 -->
+                    <input type="hidden" name="buyQty" class="form-control" value="1">
+                    <button type="submit" class="btn btn-success mt-3">장바구니</button>
 
-            <form action="/cart" method="post">
-                <input type="hidden" name="productId" value="{{product.id}}">
-                <!--  hidden이라서 값 반영이 동적으로 안 된다는 듯.. 자바 스크립트로 연결시켜서 가져와야함 -->
-                <input type="hidden" name="buyQty" class="form-control" value="1">
-                <button type="submit" class="btn btn-success mt-3">장바구니</button>
+                </div>
             </form>
         </div>
 
@@ -100,19 +98,17 @@
 <script src="/js/detail.js"></script>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
         // 구매수량 입력 필드 선택
         const buyQtyInput = document.querySelector('input[name="buyQty"]');
 
         // 장바구니 폼의 buyQty 입력 필드 선택
-        const cartBuyQtyInput = document.querySelector('form[action="/cart"] input[name="buyQty"]');
+        const cartBuyQtyInput = document.querySelector('form[action="/cart/save"] input[name="buyQty"]');
 
         // 구매수량 입력 필드의 값이 변경될 때마다 실행
         buyQtyInput.addEventListener('change', function () {
             // 장바구니 폼의 buyQty 입력 필드의 값을 현재 구매수량 입력 필드의 값으로 설정
             cartBuyQtyInput.value = this.value;
         });
-    });
 </script>
 
 

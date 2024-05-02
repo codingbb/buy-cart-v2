@@ -47,8 +47,8 @@ public class CartService {
 
     //장바구니 넣기
     @Transactional
-    public Boolean save(Integer userId, Integer productId, Integer buyQty) {
-        Cart cart = cartRepo.findByUserAndProductId(userId, productId);
+    public Boolean save(Integer userId, CartRequest.SaveDTO requestDTO) {
+        Cart cart = cartRepo.findByUserAndProductId(userId, requestDTO.getProductId());
 
         //장바구니에 중복된 상품이 들어오면 저장 안되어야함
 //        if (cart.getUserId().equals(userId) && cart.getProductId().equals(productId)) {
@@ -56,7 +56,7 @@ public class CartService {
             return false;
 
         } else {
-            cartRepo.save(userId, productId, buyQty);
+            cartRepo.save(userId, requestDTO);
             return true;
         }
     }

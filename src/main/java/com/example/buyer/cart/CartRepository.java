@@ -82,14 +82,14 @@ public class CartRepository {
 
 
     //장바구니 담기(추가)
-    public void save(Integer userId, Integer productId, Integer buyQty) {
+    public void save(Integer userId, CartRequest.SaveDTO requestDTO) {
         String q = """
                 insert into cart_tb (user_id, product_id, buy_qty, created_at) values (?, ?, ?, now())
                 """;
         Query query = em.createNativeQuery(q);
         query.setParameter(1, userId);
-        query.setParameter(2, productId);
-        query.setParameter(3, buyQty);
+        query.setParameter(2, requestDTO.getProductId());
+        query.setParameter(3, requestDTO.getBuyQty());
         query.executeUpdate();
 
     }

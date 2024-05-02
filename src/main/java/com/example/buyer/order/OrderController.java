@@ -82,12 +82,4 @@ public class OrderController {
         return "/order/order-save-form";
     }
 
-    // 주문폼 //Get 요청이겠지?? POST? GET? POST? GET?
-//    @PostMapping("/order-form")
-//    public String orderFormPost() {
-//
-//        return "/order/order-form";
-//    }
-
-
 }
