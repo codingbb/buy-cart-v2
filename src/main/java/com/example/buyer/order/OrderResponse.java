@@ -9,40 +9,62 @@ import java.time.LocalDate;
 
 public class OrderResponse {
 
-    // 주문하려는 물품 확인 폼
+    //장바구니 주문 품목
     @Data
     public static class SaveFormDTO {
-        // 유저 정보
+        private Integer cartId;
         private Integer userId;
-        private String name;    //유저 성명
-        private String address;
-        private String phone;
-
-        //주문 상품 정보 //product
-        private Integer productId;
-        private String productName;     //상품 이름
+        private Integer buyQty;
+        private Boolean status;
+        private String pName;
         private Integer price;
 
-        //주문한 상품 수량
-        private Integer buyQty;
-        private Integer sum;
-
-        //cart 부분
-        private Integer cartId;
-
         @Builder
-        public SaveFormDTO(User user, Product product, Integer buyQty, Integer sum) {
-            this.userId = user.getId();
-            this.name = user.getName();
-            this.address = user.getAddress();
-            this.phone = user.getPhone();
-            this.productId = product.getId();
-            this.productName = product.getName();
-            this.price = product.getPrice();
+        public SaveFormDTO(Integer cartId, Integer userId, Integer buyQty, Boolean status, String pName, Integer price) {
+            this.cartId = cartId;
+            this.userId = userId;
             this.buyQty = buyQty;
-            this.sum = sum;
+            this.status = status;
+            this.pName = pName;
+            this.price = price;
         }
     }
+
+
+    // 주문하려는 물품 확인 폼
+//    @Data
+//    public static class SaveFormDTO {
+//        // 유저 정보
+//        private Integer userId;
+//        private String name;    //유저 성명
+//        private String address;
+//        private String phone;
+//
+//        //주문 상품 정보 //product
+//        private Integer productId;
+//        private String productName;     //상품 이름
+//        private Integer price;
+//
+//        //주문한 상품 수량
+//        private Integer buyQty;
+//        private Integer sum;
+//
+//        //cart 부분
+//        private Integer cartId;
+//
+//        @Builder
+//        public SaveFormDTO(User user, Product product, Integer buyQty, Integer sum) {
+//            this.userId = user.getId();
+//            this.name = user.getName();
+//            this.address = user.getAddress();
+//            this.phone = user.getPhone();
+//            this.productId = product.getId();
+//            this.productName = product.getName();
+//            this.price = product.getPrice();
+//            this.buyQty = buyQty;
+//            this.sum = sum;
+//        }
+//    }
 
 
     //주문 상세보기 dto

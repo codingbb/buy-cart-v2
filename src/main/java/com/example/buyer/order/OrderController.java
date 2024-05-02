@@ -61,7 +61,6 @@ public class OrderController {
     @PostMapping("/order-save")
     public String save(OrderRequest.SaveDTO requestDTO) {
 //        System.out.println("구매하기 : " + requestDTO);
-        requestDTO.setStatus(Boolean.TRUE);
         orderService.saveOrder(requestDTO);
 
         return "redirect:/order-list";
@@ -74,10 +73,14 @@ public class OrderController {
         User sessionUser = (User) session.getAttribute("sessionUser");
 //        System.out.println("주문폼 확인용 " + requestDTO);
 
+        List<OrderResponse.SaveFormDTO> orderList = orderService.orderSaveCart(sessionUser.getId());
+
+
+        System.out.println("dmdkdkdkdkr : " + orderList);
         //dto 사용해서 한 번에 다 담기
-        OrderResponse.SaveFormDTO orderCheck = orderService.orderCheck(sessionUser.getId(), requestDTO);
-        System.out.println("주문폼 dto 값 확인 : " + orderCheck);
-        request.setAttribute("order", orderCheck);
+//        OrderResponse.SaveFormDTO orderCheck = orderService.orderCheck(sessionUser.getId(), requestDTO);
+//        System.out.println("주문폼 dto 값 확인 : " + orderCheck);
+//        request.setAttribute("order", orderCheck);
 
         return "/order/order-save-form";
     }

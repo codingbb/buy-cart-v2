@@ -30,16 +30,22 @@ public class OrderService {
         return orderDetail;
     }
 
+    //order-save-form 장바구니에 있는 것만
+    public List<OrderResponse.SaveFormDTO> orderSaveCart(Integer userId) {
+        List<OrderResponse.SaveFormDTO> orderList = orderRepo.findCartStatus(userId);
+        return orderList;
+
+    }
 
     //주문폼 orderViewForm //responseDTO인가 ? ? ?
-    public OrderResponse.SaveFormDTO orderCheck(Integer sessionUserId, OrderRequest.SaveOrderDTO requestDTO) {
-        User user = orderRepo.findByUserId(sessionUserId);
-        Product product = orderRepo.findByProductId(requestDTO.getProductId());
-
-        Integer sum = requestDTO.getBuyQty() * product.getPrice();
-
-        return new OrderResponse.SaveFormDTO(user, product, requestDTO.getBuyQty(), sum);
-    }
+//    public OrderResponse.SaveFormDTO orderCheck(Integer sessionUserId, OrderRequest.SaveOrderDTO requestDTO) {
+//        User user = orderRepo.findByUserId(sessionUserId);
+//        Product product = orderRepo.findByProductId(requestDTO.getProductId());
+//
+//        Integer sum = requestDTO.getBuyQty() * product.getPrice();
+//
+//        return new OrderResponse.SaveFormDTO(user, product, requestDTO.getBuyQty(), sum);
+//    }
 
 
     //구매하기 로직

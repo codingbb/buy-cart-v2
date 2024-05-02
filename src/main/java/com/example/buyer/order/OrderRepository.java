@@ -18,6 +18,49 @@ import java.util.List;
 public class OrderRepository {
     private final EntityManager em;
 
+    //order-save-form에 장바구니에 있는 내역만
+    public List<OrderResponse.SaveFormDTO> findCartStatus(Integer id) {
+        String q = """
+                select c.id, c.user_id, c.buy_qty, c.status, p.name, p.price 
+                from cart_tb c
+                inner join product_tb p 
+                on c.product_id = p.id 
+                where c.status = ? and c.user_id = ?
+                """;
+
+        Query query = em.createNativeQuery(q);
+        query.setParameter(1, 1);
+        query.setParameter(2, id);
+
+        List<Object[]> rows = query.getResultList();
+        List<OrderResponse.SaveFormDTO> orderList = new ArrayList<>();
+
+        for (Object[] row : rows) {
+            //listDTO
+            Integer cartId = (Integer) row[0];
+            Integer userId = (Integer) row[1];
+            Integer buyQty = (Integer) row[2];
+            Boolean status = (Boolean) row[3];
+            String pName = (String) row[4];
+            Integer price = (Integer) row[5];
+
+            OrderResponse.SaveFormDTO listDTO = OrderResponse.SaveFormDTO.builder()
+                    .cartId(cartId)
+                    .userId(userId)
+                    .buyQty(buyQty)
+                    .status(status)
+                    .pName(pName)
+                    .price(price)
+                    .build();
+
+            orderList.add(listDTO);
+        }
+
+        return orderList;
+
+    }
+
+
     //주문 취소 쿼리문 join 쓰고싶어서 씀 (product_tb 수량 변경, order_tb 상태값 변경)
     public void findByIdAndUpdateStatus(List<OrderRequest.CancelDTO> requestDTO) {
         for (OrderRequest.CancelDTO request : requestDTO) {
@@ -51,15 +94,15 @@ public class OrderRepository {
     }
 
     //상품 조회
-    public Product findByProductId(Integer id) {
-        String q = """
-                select * from product_tb where id = ?
-                """;
-        Query query = em.createNativeQuery(q, Product.class);
-        query.setParameter(1, id);
-        Product product = (Product) query.getSingleResult();
-        return product;
-    }
+//    public Product findByProductId(Integer id) {
+//        String q = """
+//                select * from product_tb where id = ?
+//                """;
+//        Query query = em.createNativeQuery(q, Product.class);
+//        query.setParameter(1, id);
+//        Product product = (Product) query.getSingleResult();
+//        return product;
+//    }
 
 
     //구매하기 !!

@@ -16,14 +16,20 @@ public class CartRepository {
     private final EntityManager em;
 
     //장바구니 수량 변경
-    public void updateQty(CartRequest.UpdateDTO requestDTO) {
-        String q = """
-                update cart_tb set buy_qty = ? where id = ?
+    public void updateQtyAndStatus(List<CartRequest.UpdateDTO> requestDTOs) {
+        for (CartRequest.UpdateDTO requestDTO : requestDTOs) {
+
+            String q = """
+                update cart_tb set buy_qty = ?, status = ? where id = ?
                 """;
-        Query query = em.createNativeQuery(q);
-        query.setParameter(1, requestDTO.getBuyQty());
-        query.setParameter(2, requestDTO.getCartId());
-        query.executeUpdate();
+
+            Query query = em.createNativeQuery(q);
+            query.setParameter(1, requestDTO.getBuyQty());
+            query.setParameter(2, requestDTO.getStatus());
+            query.setParameter(3, requestDTO.getCartId());
+            query.executeUpdate();
+
+        }
     }
 
 
@@ -84,12 +90,13 @@ public class CartRepository {
     //장바구니 담기(추가)
     public void save(Integer userId, CartRequest.SaveDTO requestDTO) {
         String q = """
-                insert into cart_tb (user_id, product_id, buy_qty, created_at) values (?, ?, ?, now())
+                insert into cart_tb (user_id, product_id, buy_qty, status, created_at) values (?, ?, ?, ?, now())
                 """;
         Query query = em.createNativeQuery(q);
         query.setParameter(1, userId);
         query.setParameter(2, requestDTO.getProductId());
         query.setParameter(3, requestDTO.getBuyQty());
+        query.setParameter(4, false);
         query.executeUpdate();
 
     }

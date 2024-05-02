@@ -20,7 +20,7 @@ public class CartController {
     @PostMapping("/cart/update")
     public @ResponseBody String update(@RequestBody List<CartRequest.UpdateDTO> requestDTOs) {
         System.out.println("장바구니 값 받나요? : " + requestDTOs);
-//        cartService.updateQty(requestDTOs);
+        cartService.updateCart(requestDTOs);
 
         return "redirect:/cart-form";
     }

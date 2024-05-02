@@ -9,6 +9,7 @@ public class CartRequest {
     public static class SaveDTO {
         private Integer productId;
         private Integer buyQty;
+        private Boolean status;
 
     }
 

@@ -17,8 +17,8 @@ public class CartService {
 
     //장바구니 수량 변경
     @Transactional
-    public void updateQty(CartRequest.UpdateDTO requestDTO) {
-        cartRepo.updateQty(requestDTO);
+    public void updateCart(List<CartRequest.UpdateDTO> requestDTOs) {
+        cartRepo.updateQtyAndStatus(requestDTOs);
     }
 
 
