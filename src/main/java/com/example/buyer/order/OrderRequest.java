@@ -24,6 +24,7 @@ public class OrderRequest {
     @Data
     public static class CancelDTO {
         private Integer orderId;
+        private Integer productId;
         private Integer buyQty;
         private Boolean status;
     }

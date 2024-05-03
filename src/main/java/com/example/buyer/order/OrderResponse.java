@@ -143,6 +143,7 @@ public class OrderResponse {
         private String payment;
         private Integer sum;
         private Integer buyQty;
+        private Integer productId;
 //        private Integer count;  //외 ~~ 이렇게 넣을것임
         private Boolean status;
         private LocalDate createdAt;
@@ -152,13 +153,14 @@ public class OrderResponse {
         private Integer totalSum;
 
         @Builder
-        public ListDTO(Integer orderId, Integer userId, String pName, String payment, Integer sum, Integer buyQty, Boolean status, LocalDate createdAt, Integer indexNum, Integer totalSum) {
+        public ListDTO(Integer orderId, Integer userId, String pName, String payment, Integer sum, Integer buyQty, Integer productId, Boolean status, LocalDate createdAt, Integer indexNum, Integer totalSum) {
             this.orderId = orderId;
             this.userId = userId;
             this.pName = pName;
             this.payment = payment;
             this.sum = sum;
             this.buyQty = buyQty;
+            this.productId = productId;
             this.status = status;
             this.createdAt = createdAt;
             this.indexNum = indexNum;

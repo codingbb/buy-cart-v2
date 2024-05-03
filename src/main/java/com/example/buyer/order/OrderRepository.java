@@ -64,19 +64,20 @@ public class OrderRepository {
 
 
     //주문 취소 쿼리문 join 쓰고싶어서 씀 (product_tb 수량 변경, order_tb 상태값 변경)
-    public void findByIdAndUpdateStatus(List<OrderRequest.CancelDTO> requestDTO) {
-        for (OrderRequest.CancelDTO request : requestDTO) {
+    public void findByIdAndUpdateStatus(List<OrderRequest.CancelDTO> requestDTOs) {
+        for (OrderRequest.CancelDTO requestDTO : requestDTOs) {
             String q = """
-                    update order_tb o 
-                    inner join product_tb p on o.product_id = p.id 
-                    set o.status = ?, p.qty = qty + ? where o.id = ?;
+                    update order_item_tb oi 
+                    inner join product_tb p on oi.product_id = p.id
+                    inner join order_tb o on oi.order_id = o.id 
+                    set o.status = ?, p.qty = qty + ? where oi.id = ?;
                     """;
 
             Query query = em.createNativeQuery(q);
 
-            query.setParameter(1, request.getStatus());   //false 고정값으로 받아와도 되는걸까..
-            query.setParameter(2, request.getBuyQty());
-            query.setParameter(3, request.getOrderId());
+            query.setParameter(1, false);   //false 고정값으로 받아와도 되는걸까..
+            query.setParameter(2, requestDTO.getBuyQty());
+            query.setParameter(3, requestDTO.getOrderId());
             query.executeUpdate();
 
         }
@@ -154,7 +155,7 @@ public class OrderRepository {
                 from order_tb o 
                 inner join user_tb u on o.user_id = u.id 
                 inner join product_tb p on o.product_id = p.id 
-                where o.id = ?;
+                where o.id = ?
                 """;
 
         Query query = em.createNativeQuery(q);
@@ -198,10 +199,11 @@ public class OrderRepository {
                 from order_item_tb oi
                 inner join order_tb o on oi.order_id = o.id
                 inner join product_tb p on oi.product_id = p.id
-                where o.user_id = ? order by o.id desc
+                where o.user_id = ? and o.status = ? order by o.id desc
                 """;
         Query query = em.createNativeQuery(q);
         query.setParameter(1, sessionUserId);
+        query.setParameter(2, false);
 
         //Object 배열 타입으로 받아야함.
         List<Object[]> rows = query.getResultList();
@@ -241,14 +243,16 @@ public class OrderRepository {
     //order-list 조회용
     public List<OrderResponse.ListDTO> findAllOrder(Integer sessionUserId) {
         String q = """
-                select oi.sum, o.id, o.user_id, oi.buy_qty, o.payment, o.created_at, o.status, p.name
+                select oi.sum, o.id, o.user_id, oi.buy_qty, oi.product_id, o.payment, o.created_at, o.status, p.name
                 from order_item_tb oi
                 inner join order_tb o on oi.order_id = o.id
                 inner join product_tb p on oi.product_id = p.id
-                where o.user_id = ? order by o.id desc
+                where o.user_id = ? and o.status = ? order by o.id desc
                 """;
         Query query = em.createNativeQuery(q);
         query.setParameter(1, sessionUserId);
+        query.setParameter(2, true);
+
 
         //Object 배열 타입으로 받아야함.
         List<Object[]> rows = query.getResultList();
@@ -260,16 +264,18 @@ public class OrderRepository {
             Integer orderId = (Integer) row[1];
             Integer userId = (Integer) row[2];
             Integer buyQty = (Integer) row[3];
-            String payment = (String) row[4];
-            LocalDate createdAt = ((Timestamp) row[5]).toLocalDateTime().toLocalDate();
-            Boolean status = (Boolean) row[6];
-            String pName = (String) row[7];
+            Integer productId = (Integer) row[4];
+            String payment = (String) row[5];
+            LocalDate createdAt = ((Timestamp) row[6]).toLocalDateTime().toLocalDate();
+            Boolean status = (Boolean) row[7];
+            String pName = (String) row[8];
 
             OrderResponse.ListDTO listDTO = OrderResponse.ListDTO.builder()
                     .sum(sum)
                     .orderId(orderId)
                     .userId(userId)
                     .buyQty(buyQty)
+                    .productId(productId)
                     .payment(payment)
                     .createdAt(createdAt)
                     .status(status)

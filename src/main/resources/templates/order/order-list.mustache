@@ -44,8 +44,10 @@
                     <td>{{createdAt}}</td>
                     <td>
                         <div class="notVisible">{{orderId}}</div>
+                        <div class="notVisible">{{productId}}</div>
                         <input type="checkbox" name="itemCheck" id="itemCheck" class="item-checkbox">
                         <div class="notVisible">{{status}}</div>
+                        <div class="notVisible">{{buyQty}}</div>
                     </td>
                 </tr>
             {{/orderList}}
@@ -80,11 +82,13 @@
             if(checkBox.checked){
                 let info = value.querySelectorAll("td > div");
                 let orderId = info[0].innerHTML;
-                let buyQty = value.querySelector(".buyQty").textContent;
+                let buyQty = info[0].innerHTML;
+                let productId = info[0].innerHTML;
 
                 let checkedOrder = {
                     orderId: orderId,
                     buyQty: buyQty,
+                    productId: productId,
                     status: checkBox.checked ? false : true
                 };
 
