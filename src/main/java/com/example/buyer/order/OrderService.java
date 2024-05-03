@@ -134,39 +134,43 @@ public class OrderService {
 
 
 //    //주문 취소 로직
-//    public List<OrderResponse.ListDTO> orderCancelList(Integer sessionUserId) {
-//        List<OrderResponse.ListDTO> orderList = orderRepo.findAllCancelOrder();
-//
-//        //ssar 유저가 구매한 내역만 나와야함
-//        //필터를 써보고싶었어요
-//        List<OrderResponse.ListDTO> findUserOrderList = orderList.stream()
-//                .filter(list ->
-//                        sessionUserId != null && sessionUserId.equals(list.getUserId()))
-////                listDTO
-//                .map(item -> {
-//                    Integer sum = item.getPrice() * item.getBuyQty();
-//                    item.setSum(sum);
-//                    return item;
-//                })
-//
-//                .map(item -> {
-//                    if (item.getStatus().equals(false)) {
-//                        item.setNowStatus("취소완료");
-//                    }
-//                    return item;
-//                })
-//                .collect(Collectors.toList());
-//
-////        Integer sum = orderList.stream().mapToInt(value -> value.getPrice() * value.getBuyQty()).sum();
-//
-//        // 화면의 No용
-//        Integer indexNum = findUserOrderList.size();
-//        for (OrderResponse.ListDTO listNum : findUserOrderList) {
-//            listNum.setIndexNum(indexNum--);
-//        }
-//
-//        return findUserOrderList;
-//
-//    }
+    public List<OrderResponse.ListDTO> orderCancelList(Integer sessionUserId) {
+        List<OrderResponse.ListDTO> orderList = orderRepo.findAllCancelOrder(sessionUserId);
+
+        // orderList에서 orderId 별로 sum 을 합한 걸 totalSum 으로 해야함 ..
+        // TODO: 이거 모르겠어요 너무 어려워요!!! 뤼튼 코드입니다
+        Map<Integer, Integer> totalSum = new HashMap<>();
+        for (OrderResponse.ListDTO order : orderList) {
+            totalSum.put(order.getOrderId(), totalSum.getOrDefault(order.getOrderId(), 0) + order.getSum());
+        }
+
+        // orderId가 중복되어서 촤차아악 나오길래 중복제거 (대표 물품만 1개 나오게)
+        Map<Integer, OrderResponse.ListDTO> orderDistinct =
+                orderList.stream().collect(Collectors.toMap(
+                        list -> list.getOrderId(),  //orderId가 키값
+                        list -> list,           // 값
+                        (first, second) -> first    //같은 키를 가진 요소가 있으면 첫번째 값 사용
+                ));
+
+//        Integer totalSum = orderList.stream().mapToInt(value -> value.getSum()).sum();
+
+        // 중복 제거된 목록에서 totalSum 설정
+        orderDistinct.values().forEach(order -> order.setTotalSum(totalSum.get(order.getOrderId())));
+
+        // Map의 values 컬렉션을 List로 변환하여 반환
+        List<OrderResponse.ListDTO> distinctOrderList = new ArrayList<>(orderDistinct.values());
+        // 주문 ID(orderId)를 기준으로 내림차순 정렬
+        distinctOrderList.sort((order1, order2) -> order2.getOrderId().compareTo(order1.getOrderId()));
+
+        // 화면의 No용
+        Integer indexNum = distinctOrderList.size();
+        for (OrderResponse.ListDTO listNum : distinctOrderList) {
+            listNum.setIndexNum(indexNum--);
+        }
+
+        return distinctOrderList;
+
+
+    }
 
 }
