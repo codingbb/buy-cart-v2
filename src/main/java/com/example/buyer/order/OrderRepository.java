@@ -65,7 +65,8 @@ public class OrderRepository {
 
     //주문 취소 쿼리문 join 쓰고싶어서 씀 (product_tb 수량 변경, order_tb 상태값 변경)
     public void findByIdAndUpdateStatus(List<OrderRequest.CancelDTO> requestDTOs) {
-        for (OrderRequest.CancelDTO requestDTO : requestDTOs) {
+            for (OrderRequest.CancelDTO requestDTO : requestDTOs) {
+
             String q = """
                     update order_item_tb oi 
                     inner join product_tb p on oi.product_id = p.id
@@ -79,7 +80,6 @@ public class OrderRepository {
             query.setParameter(2, requestDTO.getBuyQty());
             query.setParameter(3, requestDTO.getOrderId());
             query.executeUpdate();
-
         }
     }
 
