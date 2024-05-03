@@ -58,7 +58,11 @@ public class OrderService {
     //주문 취소하기!!
     @Transactional
     public void orderCancel(List<OrderRequest.CancelDTO> requestDTO) {
-        orderRepo.findByIdAndUpdateStatus(requestDTO);
+        requestDTO.forEach(cancelDTO -> {
+            // 1. order_tb 테이블 업데이트
+            // 2. product_tb 테이블 업데이트
+        });
+
     }
 
 

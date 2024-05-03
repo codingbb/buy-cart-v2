@@ -59,14 +59,16 @@ public class CartRepository {
 
 
     //장바구니 목록 보기
-    public List<CartResponse.CartDTO> findAll() {
+    public List<CartResponse.CartDTO> findAll(int sessionUserId) {
         String q = """
                 select c.id, c.user_id, c.buy_qty, p.img_file_name, p.id, p.name, p.price from cart_tb c 
                 inner join product_tb p 
                 on c.product_id = p.id 
+                where c.user_id = ?
                 order by c.id desc;
                 """;
         Query query = em.createNativeQuery(q);
+        query.setParameter(1, sessionUserId);
 
         List<Object[]> rows = query.getResultList();
         List<CartResponse.CartDTO> cartList = new ArrayList<>();

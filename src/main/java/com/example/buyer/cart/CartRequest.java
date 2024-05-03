@@ -17,7 +17,7 @@ public class CartRequest {
     @Data
     public static class UpdateDTO {
         private Integer cartId; //cartId
-        private Integer productId;
+        private Integer productId; //  안받아도 된다. cart 객체에 담겨있니까.
         private Integer buyQty; //수량 변경
         private Boolean status;
 

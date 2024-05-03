@@ -18,6 +18,20 @@ public class CartService {
     //장바구니 수량 변경
     @Transactional
     public void updateCart(List<CartRequest.UpdateDTO> requestDTOs) {
+        // 1.  카트 id 검증 (조회)  cart, cart
+
+//        for(CartRequest.UpdateDTO dto : requestDTOs){
+//            Cart cart = cartRepo.findById(dto.getCartId());
+//            if(cart == null){
+//                // cart 없다고 예외처리 해주기
+//            }
+//        }
+
+        // 2. 재고 있는지 확인
+
+
+
+        // 3. 존재하면 업데이트
         cartRepo.updateQtyAndStatus(requestDTOs);
     }
 
@@ -32,7 +46,7 @@ public class CartService {
 
     //장바구니 목록 보기
     public List<CartResponse.CartDTO> getCartList(Integer sessionUserId) {
-        List<CartResponse.CartDTO> cartList = cartRepo.findAll();
+        List<CartResponse.CartDTO> cartList = cartRepo.findAll(sessionUserId);
 
         //유저별로 장바구니 관리
         List<CartResponse.CartDTO> cartWithUser = cartList.stream().filter(cart ->

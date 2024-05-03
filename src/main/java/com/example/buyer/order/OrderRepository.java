@@ -64,28 +64,27 @@ public class OrderRepository {
 
 
     //주문 취소 쿼리문 join 쓰고싶어서 씀 (product_tb 수량 변경, order_tb 상태값 변경)
-    public void findByIdAndUpdateStatus(List<OrderRequest.CancelDTO> requestDTOs) {
-            for (OrderRequest.CancelDTO requestDTO : requestDTOs) {
-
-            String q = """
-                    update order_item_tb oi 
-                    inner join product_tb p on oi.product_id = p.id
-                    inner join order_tb o on oi.order_id = o.id 
-                    set o.status = ?, p.qty = qty + ? where oi.id = ?;
-                    """;
-
-            Query query = em.createNativeQuery(q);
-
-            query.setParameter(1, false);   //false 고정값으로 받아와도 되는걸까..
-            query.setParameter(2, requestDTO.getBuyQty());
-            query.setParameter(3, requestDTO.getOrderId());
-            query.executeUpdate();
-        }
+    public void findByIdAndUpdateStatus(OrderRequest.CancelDTO cancelDTO) {
+//        System.out.println("---------------------------------");
+//        System.out.println(cancelDTO);
+//        String q = """
+//                update order_item_tb oi
+//                inner join product_tb p on oi.product_id = p.id
+//                inner join order_tb o on oi.order_id = o.id
+//                set o.status = ?, p.qty = qty + ? where oi.id = ?;
+//                """;
+//
+//        Query query = em.createNativeQuery(q);
+//
+//        query.setParameter(1, false);   //false 고정값으로 받아와도 되는걸까..
+//        query.setParameter(2, cancelDTO.getBuyQty());
+//        query.setParameter(3, cancelDTO.getOrderId());
+//        query.executeUpdate();
     }
 
 
     //TODO: 만약 똑같은 쿼리문을 UserRepository에서 사용한다고 하면 그걸 끌어와서 써야하는지?
-    // 유저 조회
+// 유저 조회
     public User findByUserId(Integer id) {
         String q = """
                 select * from user_tb where id = ?
@@ -96,7 +95,7 @@ public class OrderRepository {
         return user;
     }
 
-    //상품 조회
+//상품 조회
 //    public Product findByProductId(Integer id) {
 //        String q = """
 //                select * from product_tb where id = ?
@@ -106,7 +105,6 @@ public class OrderRepository {
 //        Product product = (Product) query.getSingleResult();
 //        return product;
 //    }
-
 
 
     //구매하기 !!
