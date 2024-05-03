@@ -7,6 +7,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,14 +21,27 @@ public class OrderService {
     @Transactional
     public void saveOrder(OrderRequest.SaveDTO requestDTO) {
         System.out.println("으악" + requestDTO);
+        //order 저장
         Integer orderId = orderRepo.save(requestDTO);
 
-        Integer sum = requestDTO.getPrice().stream().mapToInt(value -> value.intValue()).sum();
-        requestDTO.setSum(sum);
+        //sum 계산
+        Integer sum;
+        List<Integer> price = requestDTO.getPrice();
+        List<Integer> buyQty = requestDTO.getBuyQty();
 
-        orderItemRepo.save(requestDTO, orderId, requestDTO.getSum());
+        List<Integer> sums = new ArrayList<>();
 
-        //좀 나중에
+        for (int i = 0; i < requestDTO.getProductId().size(); i++) {
+            sum = price.get(i) * buyQty.get(i);
+            sums.add(sum);
+        }
+
+        requestDTO.setSum(sums);
+
+        //orderItem 저장
+        orderItemRepo.save(requestDTO, orderId);
+
+        //수량 반영
 //        orderRepo.updateQty(requestDTO);
 
     }

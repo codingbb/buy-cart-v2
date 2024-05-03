@@ -110,11 +110,13 @@ public class OrderRepository {
     //구매하기 !!
     public Integer save(OrderRequest.SaveDTO requestDTO) {
         String q = """
-                insert into order_tb (user_id, created_at) 
-                values (?, now())
+                insert into order_tb (user_id, payment, status, created_at) 
+                values (?, ?, ?, now())
                 """;
         Query query = em.createNativeQuery(q);
         query.setParameter(1, requestDTO.getUserId());
+        query.setParameter(2, requestDTO.getPayment());
+        query.setParameter(3, true);
 
         query.executeUpdate();
 

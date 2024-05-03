@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 public class OrderItemRepository {
     private final EntityManager em;
 
-    public void save(OrderRequest.SaveDTO requestDTO, Integer orderId, Integer sum) {
+    public void save(OrderRequest.SaveDTO requestDTO, Integer orderId) {
         for (int i = 0; i < requestDTO.getPName().size(); i++) {
 
             String q = """
@@ -22,7 +22,7 @@ public class OrderItemRepository {
             query.setParameter(1, requestDTO.getBuyQty().get(i));
             query.setParameter(2, orderId);
             query.setParameter(3, requestDTO.getProductId().get(i));
-            query.setParameter(4, sum);
+            query.setParameter(4, requestDTO.getSum().get(i));
 
             query.executeUpdate();
         }

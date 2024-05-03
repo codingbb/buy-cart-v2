@@ -18,7 +18,7 @@ public class Order {
     private Integer id;
 
     private Integer userId;
-    private Integer productId;
+
     private String payment;
 
     //구매 수량

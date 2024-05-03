@@ -35,6 +35,7 @@ public class OrderRequest {
     public static class SaveDTO {
         // user 들고 오는 부분
         private Integer userId;
+        private String payment;
 
         //product 들고 오는 부분
         private List<Integer> productId;
@@ -43,7 +44,7 @@ public class OrderRequest {
         private List<Integer> price;  //계산된 가격
 
         //order에 넣는 부분
-        private Integer sum; //합계
+        private List<Integer> sum; //합계
         private Boolean status;
 
 
