@@ -9,7 +9,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -88,34 +90,32 @@ public class OrderService {
     }
 
 
-    //내 구매목록 로직
-//    public List<OrderResponse.ListDTO> orderList(Integer sessionUserId) {
-//        List<OrderResponse.ListDTO> orderList = orderRepo.findAllOrder();
-//
-//        //ssar 유저가 구매한 내역만 나와야함
-//        //필터를 쓰는구나..............!!!!!!!!!!!!!!
-//        List<OrderResponse.ListDTO> findUserOrderList = orderList.stream().filter(list ->
-//                sessionUserId != null && sessionUserId.equals(list.getUserId()))
-//                .map(item -> {
-//                    Integer sum = item.getPrice() * item.getBuyQty();
-//                    item.setSum(sum);
-//                    return item;
-//                })
-//                .collect(Collectors.toList());
-//
-////        Integer sum = orderList.stream().mapToInt(value -> value.getPrice() * value.getBuyQty()).sum();
-//
-//        // 화면의 No용
-//        Integer indexNum = findUserOrderList.size();
-//        for (OrderResponse.ListDTO listNum : findUserOrderList) {
-//            listNum.setIndexNum(indexNum--);
-//        }
-//
-//        return findUserOrderList;
-//
-//    }
-//
-//
+    //내 구매목록 로직 ssar 유저가 구매한 내역만 나와야함
+    public List<OrderResponse.ListDTO> orderList(Integer sessionUserId) {
+
+        List<OrderResponse.ListDTO> orderList = orderRepo.findAllOrder(sessionUserId);
+
+        Map<Integer, OrderResponse.ListDTO> orderDistinct =
+                orderList.stream().collect(Collectors.toMap(
+                        list -> list.getOrderId(),  //orderId가 키값
+                        list -> list,           // 값
+                        (first, second) -> first    //같은 키를 가진 요소가 있으면 첫번째 값 사용
+                ));
+
+        // Map의 values 컬렉션을 List로 변환하여 반환
+        List<OrderResponse.ListDTO> distinctOrderList = new ArrayList<>(orderDistinct.values());
+
+        // 화면의 No용
+        Integer indexNum = orderDistinct.size();
+        for (OrderResponse.ListDTO listNum : orderList) {
+            listNum.setIndexNum(indexNum--);
+        }
+
+        return distinctOrderList;
+
+    }
+
+
 //    //주문 취소 로직
 //    public List<OrderResponse.ListDTO> orderCancelList(Integer sessionUserId) {
 //        List<OrderResponse.ListDTO> orderList = orderRepo.findAllCancelOrder();

@@ -137,44 +137,30 @@ public class OrderResponse {
     //내 구매목록 DTO
     @Data
     public static class ListDTO {
-        private Integer id;
+        private Integer orderId;
         private Integer userId;
-        private Integer price;
-        private Integer buyQty;
+        private String pName;
         private String payment;
         private Integer sum;
+//        private Integer count;  //외 ~~ 이렇게 넣을것임
         private Boolean status;
-        private String nowStatus;   //값 뿌릴려니까 false 값만 들어오길래.. 취소완료로 뿌려주려고 함
         private LocalDate createdAt;
-        private String name;    //상품명
-        private Integer indexNum;
 
-        //버튼 구분이 안가서.. 색 변경하려고 넣어줌
-        private String buttonColor;
+//        private String nowStatus;   //값 뿌릴려니까 false 값만 들어오길래.. 취소완료로 뿌려주려고 함
+        private Integer indexNum;   // index 용
 
         @Builder
-        public ListDTO(Integer id, Integer userId, Integer price, Integer buyQty, String payment, Integer sum, Boolean status, String nowStatus, LocalDate createdAt, String name, Integer indexNum) {
-            this.id = id;
+        public ListDTO(Integer orderId, Integer userId, String pName, String payment, Integer sum, Boolean status, LocalDate createdAt, Integer indexNum) {
+            this.orderId = orderId;
             this.userId = userId;
-            this.price = price;
-            this.buyQty = buyQty;
+            this.pName = pName;
             this.payment = payment;
             this.sum = sum;
             this.status = status;
-            this.nowStatus = nowStatus;
             this.createdAt = createdAt;
-            this.name = name;
             this.indexNum = indexNum;
         }
 
-//        //버튼 변경 클래스 용~
-//        public void buttonColor() {
-//             this.buttonColor = "btn btn-primary";
-//            if ("주문취소".equals(status)) {
-//                buttonColor = "btn btn-danger";
-//            }
-//
-//        }
 
     }
 

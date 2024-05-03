@@ -25,7 +25,6 @@
             <tr>
                 <th class="center-align col-1">No</th>
                 <th class="center-align col-2">상품명</th>
-                <th class="center-align col-1">수량</th>
                 <th class="center-align col-2">상품가격</th>
                 <th class="center-align col-2">결제방법</th>
                 <th class="center-align col-2">주문날짜</th>
@@ -39,13 +38,12 @@
             {{#orderList}}
                 <tr class="offer-table my-cancel-list">
                     <th scope="row">{{indexNum}}</th>
-                    <td>{{name}}</td>
-                    <td class="buyQty">{{buyQty}}</td>
+                    <td>{{pName}}</td>
                     <td class="sum">{{sum}}</td>
                     <td>{{payment}}</td>
                     <td>{{createdAt}}</td>
                     <td>
-                        <div class="notVisible">{{id}}</div>
+                        <div class="notVisible">{{orderId}}</div>
                         <input type="checkbox" name="itemCheck" id="itemCheck" class="item-checkbox">
                         <div class="notVisible">{{status}}</div>
                     </td>

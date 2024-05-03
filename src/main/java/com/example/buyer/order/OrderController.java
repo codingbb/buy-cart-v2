@@ -46,16 +46,16 @@ public class OrderController {
 
 
     //내 구매목록 리스트
-//    @GetMapping("/order-list")
-//    public String orderList(HttpServletRequest request) {
-//        User sessionUser = (User) session.getAttribute("sessionUser");
-//
-//        List<OrderResponse.ListDTO> orderList = orderService.orderList(sessionUser.getId());
-////        System.out.println("오더 리스트 : " + orderList);
-//        request.setAttribute("orderList", orderList);
-//
-//        return "/order/order-list";
-//    }
+    @GetMapping("/order-list")
+    public String orderList(HttpServletRequest request) {
+        User sessionUser = (User) session.getAttribute("sessionUser");
+
+        List<OrderResponse.ListDTO> orderList = orderService.orderList(sessionUser.getId());
+        System.out.println("오더 리스트 : " + orderList);
+        request.setAttribute("orderList", orderList);
+
+        return "/order/order-list";
+    }
 
     // 주문하기 = 구매하기
     @PostMapping("/order-save")
