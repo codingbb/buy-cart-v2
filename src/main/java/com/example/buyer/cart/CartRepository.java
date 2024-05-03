@@ -44,6 +44,19 @@ public class CartRepository {
 
     }
 
+    // 장바구니에 있는 거 구매하면 삭제되는 것
+    public void deleteBySelectId(List<Integer> cartId) {
+        for (int i = 0; i < cartId.size(); i++) {
+            String q = """
+                    delete from cart_tb where id = ?
+                    """;
+            Query query = em.createNativeQuery(q);
+            query.setParameter(1, cartId.get(i));
+            query.executeUpdate();
+        }
+
+    }
+
 
     //장바구니 목록 보기
     public List<CartResponse.CartDTO> findAll() {

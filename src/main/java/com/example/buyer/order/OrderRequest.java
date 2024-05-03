@@ -37,6 +37,8 @@ public class OrderRequest {
         private Integer userId;
         private String payment;
 
+        private List<Integer> cartId;
+
         //product 들고 오는 부분
         private List<Integer> productId;
         private List<String> pName;

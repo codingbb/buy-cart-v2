@@ -1,5 +1,6 @@
 package com.example.buyer.order;
 
+import com.example.buyer.cart.CartRepository;
 import com.example.buyer.orderItem.OrderItemRepository;
 import com.example.buyer.product.Product;
 import com.example.buyer.user.User;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 public class OrderService {
     private final OrderRepository orderRepo;
     private final OrderItemRepository orderItemRepo;
+    private final CartRepository cartRepo;
 
     //구매하기 로직
     @Transactional
@@ -43,6 +45,9 @@ public class OrderService {
 
         //수량 반영
         orderRepo.updateQty(requestDTO);
+
+        cartRepo.deleteBySelectId(requestDTO.getCartId());
+
 
     }
 
