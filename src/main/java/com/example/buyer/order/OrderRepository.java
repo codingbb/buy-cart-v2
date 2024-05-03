@@ -131,15 +131,19 @@ public class OrderRepository {
     }
 
     //상품을 구매하면 재고 차감
-//    public void updateQty(OrderRequest.SaveDTO requestDTO) {
-//        String q = """
-//                update product_tb set qty = qty - ? where id = ?
-//                """;
-//        Query query = em.createNativeQuery(q);
-//        query.setParameter(1, requestDTO.getBuyQty());
-//        query.setParameter(2, requestDTO.getProductId());
-//        query.executeUpdate();
-//    }
+    public void updateQty(OrderRequest.SaveDTO requestDTO) {
+
+        for (int i = 0; i < requestDTO.getProductId().size(); i++) {
+            String q = """
+                    update product_tb set qty = qty - ? where id = ?
+                    """;
+            Query query = em.createNativeQuery(q);
+            query.setParameter(1, requestDTO.getBuyQty().get(i));
+            query.setParameter(2, requestDTO.getProductId().get(i));
+            query.executeUpdate();
+        }
+
+    }
 
     //주문내역 폼 (order-detail-form) 조회용
     public OrderResponse.DetailDTO findUserProductByOrderId(Integer orderId) {

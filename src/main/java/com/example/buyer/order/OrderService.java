@@ -42,7 +42,7 @@ public class OrderService {
         orderItemRepo.save(requestDTO, orderId);
 
         //수량 반영
-//        orderRepo.updateQty(requestDTO);
+        orderRepo.updateQty(requestDTO);
 
     }
 
