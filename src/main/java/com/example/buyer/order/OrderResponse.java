@@ -148,9 +148,10 @@ public class OrderResponse {
 
 //        private String nowStatus;   //값 뿌릴려니까 false 값만 들어오길래.. 취소완료로 뿌려주려고 함
         private Integer indexNum;   // index 용
+        private Integer totalSum;
 
         @Builder
-        public ListDTO(Integer orderId, Integer userId, String pName, String payment, Integer sum, Boolean status, LocalDate createdAt, Integer indexNum) {
+        public ListDTO(Integer orderId, Integer userId, String pName, String payment, Integer sum, Boolean status, LocalDate createdAt, Integer indexNum, Integer totalSum) {
             this.orderId = orderId;
             this.userId = userId;
             this.pName = pName;
@@ -159,6 +160,7 @@ public class OrderResponse {
             this.status = status;
             this.createdAt = createdAt;
             this.indexNum = indexNum;
+            this.totalSum = totalSum;
         }
 
 

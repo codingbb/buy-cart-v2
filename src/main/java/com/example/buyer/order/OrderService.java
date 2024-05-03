@@ -28,7 +28,7 @@ public class OrderService {
         //order 저장
         Integer orderId = orderRepo.save(requestDTO);
 
-        //sum 계산
+        //각각 sum 계산
         Integer sum;
         List<Integer> price = requestDTO.getPrice();
         List<Integer> buyQty = requestDTO.getBuyQty();
@@ -52,6 +52,8 @@ public class OrderService {
 
 
     }
+
+
 
     //주문 취소하기!!
     @Transactional
@@ -95,6 +97,14 @@ public class OrderService {
 
         List<OrderResponse.ListDTO> orderList = orderRepo.findAllOrder(sessionUserId);
 
+        // orderList에서 orderId 별로 sum 을 합한 걸 totalSum 으로 해야함 ..
+        // TODO: 이거 모르겠어요 너무 어려워요!!! 뤼튼 코드입니다
+        Map<Integer, Integer> totalSum = new HashMap<>();
+        for (OrderResponse.ListDTO order : orderList) {
+            totalSum.put(order.getOrderId(), totalSum.getOrDefault(order.getOrderId(), 0) + order.getSum());
+        }
+
+        // orderId가 중복되어서 촤차아악 나오길래 중복제거 (대표 물품만 1개 나오게)
         Map<Integer, OrderResponse.ListDTO> orderDistinct =
                 orderList.stream().collect(Collectors.toMap(
                         list -> list.getOrderId(),  //orderId가 키값
@@ -102,12 +112,19 @@ public class OrderService {
                         (first, second) -> first    //같은 키를 가진 요소가 있으면 첫번째 값 사용
                 ));
 
+//        Integer totalSum = orderList.stream().mapToInt(value -> value.getSum()).sum();
+
+        // 중복 제거된 목록에서 totalSum 설정
+        orderDistinct.values().forEach(order -> order.setTotalSum(totalSum.get(order.getOrderId())));
+
         // Map의 values 컬렉션을 List로 변환하여 반환
         List<OrderResponse.ListDTO> distinctOrderList = new ArrayList<>(orderDistinct.values());
+        // 주문 ID(orderId)를 기준으로 내림차순 정렬
+        distinctOrderList.sort((order1, order2) -> order2.getOrderId().compareTo(order1.getOrderId()));
 
         // 화면의 No용
-        Integer indexNum = orderDistinct.size();
-        for (OrderResponse.ListDTO listNum : orderList) {
+        Integer indexNum = distinctOrderList.size();
+        for (OrderResponse.ListDTO listNum : distinctOrderList) {
             listNum.setIndexNum(indexNum--);
         }
 

@@ -278,7 +278,7 @@ public class OrderRepository {
             orderList.add(listDTO);
         }
 
-        System.out.println("db값 확인용..." + orderList);
+//        System.out.println("db값 확인용..." + orderList);
 
         return orderList;
 
