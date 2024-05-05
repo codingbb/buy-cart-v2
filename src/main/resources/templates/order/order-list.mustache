@@ -82,8 +82,8 @@
             if(checkBox.checked){
                 let info = value.querySelectorAll("td > div");
                 let orderId = info[0].innerHTML;
-                let buyQty = info[0].innerHTML;
-                let productId = info[0].innerHTML;
+                let buyQty = info[3].innerHTML;
+                let productId = info[1].innerHTML;
 
                 let checkedOrder = {
                     orderId: orderId,

@@ -59,9 +59,15 @@ public class OrderService {
     //주문 취소하기!!
     @Transactional
     public void orderCancel(List<OrderRequest.CancelDTO> requestDTO) {
+        //TODO : 값이 배열로 안받아와져요
+        // 주문 취소 DTO : [OrderRequest.CancelDTO(orderId=4, productId=5, buyQty=2, status=false)]
+        // 이렇게밖에 안받아와져요 ................... [ 5, 6, 7 ] / [ 2, 35, 20 ] 이렇게 받아야하는데
+
         requestDTO.forEach(cancelDTO -> {
             // 1. order_tb 테이블 업데이트
+            orderRepo.updateStatus(cancelDTO);
             // 2. product_tb 테이블 업데이트
+            orderRepo.updateQtyPlus(cancelDTO);
         });
 
     }

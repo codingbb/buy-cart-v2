@@ -1,5 +1,6 @@
 package com.example.buyer.order;
 
+import com.example.buyer.orderItem.OrderItem;
 import com.example.buyer.product.Product;
 import com.example.buyer.user.User;
 import jakarta.persistence.EntityManager;
@@ -62,24 +63,43 @@ public class OrderRepository {
 
     }
 
+//    public List<Integer> findByOrderIdAndProductId(OrderRequest.CancelDTO cancelDTO) {
+//        String q = """
+//                select product_id from order_item_tb where id = ?
+//                """;
+//        Query query = em.createNativeQuery(q, OrderItem.class);
+//        query.setParameter(1, cancelDTO.getOrderId());
+//        List<Integer> orderItems = query.getResultList();
+//        return orderItems;
+//    }
+
 
     //주문 취소 쿼리문 join 쓰고싶어서 씀 (product_tb 수량 변경, order_tb 상태값 변경)
-    public void findByIdAndUpdateStatus(OrderRequest.CancelDTO cancelDTO) {
-//        System.out.println("---------------------------------");
-//        System.out.println(cancelDTO);
-//        String q = """
-//                update order_item_tb oi
-//                inner join product_tb p on oi.product_id = p.id
-//                inner join order_tb o on oi.order_id = o.id
-//                set o.status = ?, p.qty = qty + ? where oi.id = ?;
-//                """;
-//
-//        Query query = em.createNativeQuery(q);
-//
-//        query.setParameter(1, false);   //false 고정값으로 받아와도 되는걸까..
-//        query.setParameter(2, cancelDTO.getBuyQty());
-//        query.setParameter(3, cancelDTO.getOrderId());
-//        query.executeUpdate();
+    public void updateStatus(OrderRequest.CancelDTO cancelDTO) {
+        System.out.println("---------------------------------");
+        System.out.println(cancelDTO);
+        String q = """
+                update order_tb set status = ? where id = ?
+                """;
+
+        Query query = em.createNativeQuery(q);
+
+        query.setParameter(1, false);   //false 고정값으로 받아와도 되는걸까..
+        query.setParameter(2, cancelDTO.getOrderId());
+        query.executeUpdate();
+    }
+
+    public void updateQtyPlus(OrderRequest.CancelDTO cancelDTO) {
+        System.out.println("---------------------------------");
+        System.out.println(cancelDTO);
+        String q = """
+                update product_tb set qty = qty + ? where id = ?
+                """;
+        Query query = em.createNativeQuery(q);
+
+        query.setParameter(1, cancelDTO.getBuyQty());   //false 고정값으로 받아와도 되는걸까..
+        query.setParameter(2, cancelDTO.getProductId());
+        query.executeUpdate();
     }
 
 
