@@ -193,9 +193,9 @@ public class OrderRepository {
 
     //order-cancel-list 조회용
     public List<OrderResponse.ListDTO> findAllCancelOrder(Integer sessionUserId) {
-        //TODO: 여기도 sum 조회해야함!!
+
         String q = """
-                select o.id, o.user_id, o.payment, o.created_at, o.status, p.name
+                select o.id, o.sum, o.user_id, o.payment, o.created_at, o.status, p.name
                 from order_item_tb oi
                 inner join order_tb o on oi.order_id = o.id
                 inner join product_tb p on oi.product_id = p.id
@@ -212,14 +212,16 @@ public class OrderRepository {
         for (Object[] row : rows) {
             //listDTO
             Integer orderId = (Integer) row[0];
-            Integer userId = (Integer) row[1];
-            String payment = (String) row[2];
-            LocalDate createdAt = ((Timestamp) row[3]).toLocalDateTime().toLocalDate();
-            Boolean status = (Boolean) row[4];
-            String pName = (String) row[5];
+            Integer sum = (Integer) row[1];
+            Integer userId = (Integer) row[2];
+            String payment = (String) row[3];
+            LocalDate createdAt = ((Timestamp) row[4]).toLocalDateTime().toLocalDate();
+            Boolean status = (Boolean) row[5];
+            String pName = (String) row[6];
 
             OrderResponse.ListDTO listDTO = OrderResponse.ListDTO.builder()
                     .orderId(orderId)
+                    .sum(sum)
                     .userId(userId)
                     .payment(payment)
                     .createdAt(createdAt)
