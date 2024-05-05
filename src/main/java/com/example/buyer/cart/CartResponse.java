@@ -6,6 +6,17 @@ import lombok.Data;
 
 public class CartResponse {
 
+    @Data
+    public static class QtyDTO {
+        private Integer qty;
+
+        @Builder
+        public QtyDTO(Integer qty) {
+            this.qty = qty;
+        }
+    }
+
+
     // 장바구니용 dto
     @Data
     public static class CartDTO {

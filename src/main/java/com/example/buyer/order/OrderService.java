@@ -61,7 +61,10 @@ public class OrderService {
     public void orderCancel(List<OrderRequest.CancelDTO> requestDTO) {
         //TODO : 값이 배열로 안받아와져요
         // 주문 취소 DTO : [OrderRequest.CancelDTO(orderId=4, productId=5, buyQty=2, status=false)]
-        // 이렇게밖에 안받아와져요 ................... [ 5, 6, 7 ] / [ 2, 35, 20 ] 이렇게 받아야하는데
+        // 이렇게밖에 안받아와져요 ................... [ 5, 6, 7 ] / [ 2, 35, 20 ] 이렇게 받아야하는데..
+        // 원래 List orderItem으로 촤라라라락 받아와서 뿌리고, orderId를 기준으로 중복값을 제거하고,
+        // 대표로 한개만 골라서 화면에 뿌려뒀기 때문에, 그 1개만 선택이 되어서 값이 1개만 나오는거같아요아닌가요
+        // ...
 
         requestDTO.forEach(cancelDTO -> {
             // 1. order_tb 테이블 업데이트

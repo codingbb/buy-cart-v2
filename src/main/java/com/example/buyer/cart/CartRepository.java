@@ -1,5 +1,6 @@
 package com.example.buyer.cart;
 
+import com.example.buyer.order.OrderResponse;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.Query;
@@ -25,7 +26,7 @@ public class CartRepository {
 
             Query query = em.createNativeQuery(q);
             query.setParameter(1, requestDTO.getBuyQty());
-            query.setParameter(2, requestDTO.getStatus());
+            query.setParameter(2, true);
             query.setParameter(3, requestDTO.getCartId());
             query.executeUpdate();
 
@@ -132,4 +133,44 @@ public class CartRepository {
             return null;
         }
     }
+
+    public Cart findById(Integer cartId) {
+        try {
+            String q = """
+                    select * from cart_tb where id = ?
+                    """;
+            Query query = em.createNativeQuery(q, Cart.class);
+            query.setParameter(1, cartId);
+            Cart cart = (Cart) query.getSingleResult();
+            return cart;
+
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+
+    public CartResponse.QtyDTO findByQtyWithId(Integer cartId) {
+        try {
+            String q = """
+                    select p.qty from cart_tb c
+                    inner join product_tb p
+                    on c.product_id = p.id where c.id = ?
+                    """;
+            Query query = em.createNativeQuery(q);
+            query.setParameter(1, cartId);
+
+            Integer qty = (Integer) query.getSingleResult();
+
+            CartResponse.QtyDTO qtyDTO = CartResponse.QtyDTO.builder()
+                    .qty(qty)
+                    .build();
+
+            return qtyDTO;
+
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
 }

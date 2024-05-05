@@ -17,7 +17,7 @@ public class CartRequest {
     @Data
     public static class UpdateDTO {
         private Integer cartId; //cartId
-        private Integer productId; //  안받아도 된다. cart 객체에 담겨있니까.
+//        private Integer productId; //  안받아도 된다. cart 객체에 담겨있니까. -> 카트를 업데이트할 때는 상품의 수량이나 상태만 변경하면 되고, 어떤 상품인지를 다시 지정할 필요가 없다
         private Integer buyQty; //수량 변경
         private Boolean status;
 
