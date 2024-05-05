@@ -29,6 +29,7 @@ public class Order {
 
     //구매 상태
     private Boolean status;  //true = 주문완료, false = 취소완료 //String으로 넣으면 안됨! 범주가 없어서 위험! Enum을 쓰든 Boolean사용!
+    private Integer sum;
 
     @Transient
     private Integer indexNum;

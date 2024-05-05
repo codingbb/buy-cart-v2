@@ -110,13 +110,14 @@ public class OrderRepository {
     //구매하기 !!
     public Integer save(OrderRequest.SaveDTO requestDTO) {
         String q = """
-                insert into order_tb (user_id, payment, status, created_at) 
-                values (?, ?, ?, now())
+                insert into order_tb (user_id, payment, status, sum, created_at) 
+                values (?, ?, ?, ?, now())
                 """;
         Query query = em.createNativeQuery(q);
         query.setParameter(1, requestDTO.getUserId());
         query.setParameter(2, requestDTO.getPayment());
         query.setParameter(3, true);
+        query.setParameter(4, requestDTO.getTotalSum());
 
         query.executeUpdate();
 
@@ -192,8 +193,9 @@ public class OrderRepository {
 
     //order-cancel-list 조회용
     public List<OrderResponse.ListDTO> findAllCancelOrder(Integer sessionUserId) {
+        //TODO: 여기도 sum 조회해야함!!
         String q = """
-                select oi.sum, o.id, o.user_id, o.payment, o.created_at, o.status, p.name
+                select o.id, o.user_id, o.payment, o.created_at, o.status, p.name
                 from order_item_tb oi
                 inner join order_tb o on oi.order_id = o.id
                 inner join product_tb p on oi.product_id = p.id
@@ -209,16 +211,14 @@ public class OrderRepository {
 
         for (Object[] row : rows) {
             //listDTO
-            Integer sum = (Integer) row[0];
-            Integer orderId = (Integer) row[1];
-            Integer userId = (Integer) row[2];
-            String payment = (String) row[3];
-            LocalDate createdAt = ((Timestamp) row[4]).toLocalDateTime().toLocalDate();
-            Boolean status = (Boolean) row[5];
-            String pName = (String) row[6];
+            Integer orderId = (Integer) row[0];
+            Integer userId = (Integer) row[1];
+            String payment = (String) row[2];
+            LocalDate createdAt = ((Timestamp) row[3]).toLocalDateTime().toLocalDate();
+            Boolean status = (Boolean) row[4];
+            String pName = (String) row[5];
 
             OrderResponse.ListDTO listDTO = OrderResponse.ListDTO.builder()
-                    .sum(sum)
                     .orderId(orderId)
                     .userId(userId)
                     .payment(payment)
@@ -240,8 +240,9 @@ public class OrderRepository {
 
     //order-list 조회용
     public List<OrderResponse.ListDTO> findAllOrder(Integer sessionUserId) {
+        //TODO: 여기도 sum 조회요...
         String q = """
-                select oi.sum, o.id, o.user_id, oi.buy_qty, oi.product_id, o.payment, o.created_at, o.status, p.name
+                select o.id, o.sum, o.user_id, oi.buy_qty, oi.product_id, o.payment, o.created_at, o.status, p.name
                 from order_item_tb oi
                 inner join order_tb o on oi.order_id = o.id
                 inner join product_tb p on oi.product_id = p.id
@@ -258,8 +259,8 @@ public class OrderRepository {
 
         for (Object[] row : rows) {
             //listDTO
-            Integer sum = (Integer) row[0];
-            Integer orderId = (Integer) row[1];
+            Integer orderId = (Integer) row[0];
+            Integer sum = (Integer) row[1];
             Integer userId = (Integer) row[2];
             Integer buyQty = (Integer) row[3];
             Integer productId = (Integer) row[4];
@@ -269,8 +270,8 @@ public class OrderRepository {
             String pName = (String) row[8];
 
             OrderResponse.ListDTO listDTO = OrderResponse.ListDTO.builder()
-                    .sum(sum)
                     .orderId(orderId)
+                    .sum(sum)
                     .userId(userId)
                     .buyQty(buyQty)
                     .productId(productId)

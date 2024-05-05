@@ -25,22 +25,23 @@ public class OrderService {
     @Transactional
     public void saveOrder(OrderRequest.SaveDTO requestDTO) {
         System.out.println("으악" + requestDTO);
+
         //order 저장
         Integer orderId = orderRepo.save(requestDTO);
 
         //각각 sum 계산
-        Integer sum;
-        List<Integer> price = requestDTO.getPrice();
-        List<Integer> buyQty = requestDTO.getBuyQty();
-
-        List<Integer> sums = new ArrayList<>();
-
-        for (int i = 0; i < requestDTO.getProductId().size(); i++) {
-            sum = price.get(i) * buyQty.get(i);
-            sums.add(sum);
-        }
-
-        requestDTO.setSum(sums);
+//        Integer sum;
+//        List<Integer> price = requestDTO.getPrice();
+//        List<Integer> buyQty = requestDTO.getBuyQty();
+//
+//        List<Integer> sums = new ArrayList<>();
+//
+//        for (int i = 0; i < requestDTO.getProductId().size(); i++) {
+//            sum = price.get(i) * buyQty.get(i);
+//            sums.add(sum);
+//        }
+//
+//        requestDTO.setSum(sums);
 
         //orderItem 저장
         orderItemRepo.save(requestDTO, orderId);
@@ -101,13 +102,6 @@ public class OrderService {
 
         List<OrderResponse.ListDTO> orderList = orderRepo.findAllOrder(sessionUserId);
 
-        // orderList에서 orderId 별로 sum 을 합한 걸 totalSum 으로 해야함 ..
-        // TODO: 이거 모르겠어요 너무 어려워요!!! 뤼튼 코드입니다
-        Map<Integer, Integer> totalSum = new HashMap<>();
-        for (OrderResponse.ListDTO order : orderList) {
-            totalSum.put(order.getOrderId(), totalSum.getOrDefault(order.getOrderId(), 0) + order.getSum());
-        }
-
         // orderId가 중복되어서 촤차아악 나오길래 중복제거 (대표 물품만 1개 나오게)
         Map<Integer, OrderResponse.ListDTO> orderDistinct =
                 orderList.stream().collect(Collectors.toMap(
@@ -115,11 +109,6 @@ public class OrderService {
                         list -> list,           // 값
                         (first, second) -> first    //같은 키를 가진 요소가 있으면 첫번째 값 사용
                 ));
-
-//        Integer totalSum = orderList.stream().mapToInt(value -> value.getSum()).sum();
-
-        // 중복 제거된 목록에서 totalSum 설정
-        orderDistinct.values().forEach(order -> order.setTotalSum(totalSum.get(order.getOrderId())));
 
         // Map의 values 컬렉션을 List로 변환하여 반환
         List<OrderResponse.ListDTO> distinctOrderList = new ArrayList<>(orderDistinct.values());
@@ -143,10 +132,10 @@ public class OrderService {
 
         // orderList에서 orderId 별로 sum 을 합한 걸 totalSum 으로 해야함 ..
         // TODO: 이거 모르겠어요 너무 어려워요!!! 뤼튼 코드입니다
-        Map<Integer, Integer> totalSum = new HashMap<>();
-        for (OrderResponse.ListDTO order : orderList) {
-            totalSum.put(order.getOrderId(), totalSum.getOrDefault(order.getOrderId(), 0) + order.getSum());
-        }
+//        Map<Integer, Integer> totalSum = new HashMap<>();
+//        for (OrderResponse.ListDTO order : orderList) {
+//            totalSum.put(order.getOrderId(), totalSum.getOrDefault(order.getOrderId(), 0) + order.getSum());
+//        }
 
         // orderId가 중복되어서 촤차아악 나오길래 중복제거 (대표 물품만 1개 나오게)
         Map<Integer, OrderResponse.ListDTO> orderDistinct =
@@ -159,7 +148,7 @@ public class OrderService {
 //        Integer totalSum = orderList.stream().mapToInt(value -> value.getSum()).sum();
 
         // 중복 제거된 목록에서 totalSum 설정
-        orderDistinct.values().forEach(order -> order.setTotalSum(totalSum.get(order.getOrderId())));
+//        orderDistinct.values().forEach(order -> order.setTotalSum(totalSum.get(order.getOrderId())));
 
         // Map의 values 컬렉션을 List로 변환하여 반환
         List<OrderResponse.ListDTO> distinctOrderList = new ArrayList<>(orderDistinct.values());

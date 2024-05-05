@@ -14,15 +14,16 @@ public class OrderItemRepository {
     public void save(OrderRequest.SaveDTO requestDTO, Integer orderId) {
         for (int i = 0; i < requestDTO.getPName().size(); i++) {
 
+            //TODO : sum 넣어야함!! 알지요?
             String q = """
-                insert into order_item_tb (buy_qty, order_id, product_id, sum, created_at)
-                values (?, ?, ?, ?, now());
+                insert into order_item_tb (buy_qty, order_id, product_id, created_at)
+                values (?, ?, ?, now());
                 """;
             Query query = em.createNativeQuery(q);
             query.setParameter(1, requestDTO.getBuyQty().get(i));
             query.setParameter(2, orderId);
             query.setParameter(3, requestDTO.getProductId().get(i));
-            query.setParameter(4, requestDTO.getSum().get(i));
+//            query.setParameter(4, requestDTO.getSum().get(i));
 
             query.executeUpdate();
         }

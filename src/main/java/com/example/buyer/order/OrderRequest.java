@@ -47,7 +47,7 @@ public class OrderRequest {
         private List<Integer> price;  //계산된 가격
 
         //order에 넣는 부분
-        private List<Integer> sum; //합계
+        private Integer totalSum; //합계
         private Boolean status;
 
 

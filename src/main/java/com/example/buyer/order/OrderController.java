@@ -49,7 +49,6 @@ public class OrderController {
     @GetMapping("/order-list")
     public String orderList(HttpServletRequest request) {
         User sessionUser = (User) session.getAttribute("sessionUser");
-
         List<OrderResponse.ListDTO> orderList = orderService.orderList(sessionUser.getId());
         System.out.println("오더 리스트 : " + orderList);
         request.setAttribute("orderList", orderList);
@@ -60,7 +59,7 @@ public class OrderController {
     // 주문하기 = 구매하기
     @PostMapping("/order-save")
     public String save(OrderRequest.SaveDTO requestDTO) {
-//        System.out.println("구매하기 : " + requestDTO);
+        System.out.println("구매하기 : " + requestDTO);
         orderService.saveOrder(requestDTO);
 
         return "redirect:/order-list";

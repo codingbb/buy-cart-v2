@@ -141,7 +141,6 @@ public class OrderResponse {
         private Integer userId;
         private String pName;
         private String payment;
-        private Integer sum;
         private Integer buyQty;
         private Integer productId;
 //        private Integer count;  //외 ~~ 이렇게 넣을것임
@@ -150,21 +149,20 @@ public class OrderResponse {
 
 //        private String nowStatus;   //값 뿌릴려니까 false 값만 들어오길래.. 취소완료로 뿌려주려고 함
         private Integer indexNum;   // index 용
-        private Integer totalSum;
+        private Integer sum;
 
         @Builder
-        public ListDTO(Integer orderId, Integer userId, String pName, String payment, Integer sum, Integer buyQty, Integer productId, Boolean status, LocalDate createdAt, Integer indexNum, Integer totalSum) {
+        public ListDTO(Integer orderId, Integer userId, String pName, String payment, Integer buyQty, Integer productId, Boolean status, LocalDate createdAt, Integer indexNum, Integer sum) {
             this.orderId = orderId;
             this.userId = userId;
             this.pName = pName;
             this.payment = payment;
-            this.sum = sum;
             this.buyQty = buyQty;
             this.productId = productId;
             this.status = status;
             this.createdAt = createdAt;
             this.indexNum = indexNum;
-            this.totalSum = totalSum;
+            this.sum = sum;
         }
 
 

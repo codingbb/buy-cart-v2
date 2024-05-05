@@ -20,7 +20,7 @@ public class OrderItem {
 
     //구매 수량
     private Integer buyQty;
-    private Integer sum;    //고정값이라 받아옴. 값이 바뀌는 order같은건 price*qty로 연산하자
+//    private Integer sum;    //고정값이라 받아옴. 값이 바뀌는 order같은건 price*qty로 연산하자
 
     private Integer orderId;
 
