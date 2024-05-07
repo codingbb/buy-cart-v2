@@ -1,6 +1,7 @@
 package com.example.buyer.order;
 
 import com.example.buyer.orderItem.OrderItem;
+import com.example.buyer.orderItem.OrderItemResponse;
 import com.example.buyer.product.Product;
 import com.example.buyer.user.User;
 import jakarta.persistence.EntityManager;
@@ -18,6 +19,8 @@ import java.util.List;
 @Repository
 public class OrderRepository {
     private final EntityManager em;
+
+
 
     public List<OrderResponse.SaveFormDTO> findStatusAndUserId(Integer sessionUserId) {
         String q = """
@@ -75,7 +78,7 @@ public class OrderRepository {
 
 
     //주문 취소 쿼리문 join 쓰고싶어서 씀 (product_tb 수량 변경, order_tb 상태값 변경)
-    public void updateStatus(OrderRequest.CancelDTO cancelDTO) {
+    public void updateStatus(OrderItemResponse.CancelDTO cancelDTO) {
         System.out.println("---------------------------------");
         System.out.println(cancelDTO);
         String q = """
@@ -89,7 +92,7 @@ public class OrderRepository {
         query.executeUpdate();
     }
 
-    public void updateQtyPlus(OrderRequest.CancelDTO cancelDTO) {
+    public void updateQtyPlus(OrderItemResponse.CancelDTO cancelDTO) {
         System.out.println("---------------------------------");
         System.out.println(cancelDTO);
         String q = """
