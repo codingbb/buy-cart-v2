@@ -50,6 +50,10 @@ public class OrderController {
     public String orderList(HttpServletRequest request) {
         User sessionUser = (User) session.getAttribute("sessionUser");
         List<OrderResponse.ListDTO> orderList = orderService.orderList(sessionUser.getId());
+        //count용
+        List<OrderResponse.ListDTO> count = orderService.getOrderItemCount(orderList);
+        System.out.println("카운트 조회용" + count);
+
         System.out.println("오더 리스트 : " + orderList);
         request.setAttribute("orderList", orderList);
 

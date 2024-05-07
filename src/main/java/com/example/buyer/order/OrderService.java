@@ -104,6 +104,14 @@ public class OrderService {
 
     }
 
+    //count ...
+    public List<OrderResponse.ListDTO> getOrderItemCount(List<OrderResponse.ListDTO> orderList) {
+        for (OrderResponse.ListDTO order : orderList) {
+            Long count = orderRepo.findOrderItemCount(order.getOrderId());
+            order.setCount(count);
+        }
+        return orderList;
+    }
 
     //내 구매목록 로직 ssar 유저가 구매한 내역만 나와야함
     public List<OrderResponse.ListDTO> orderList(Integer sessionUserId) {

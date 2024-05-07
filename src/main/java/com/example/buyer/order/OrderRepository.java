@@ -314,4 +314,21 @@ public class OrderRepository {
         return orderList;
 
     }
+
+    //count 용
+    public Long findOrderItemCount(Integer orderId) {
+        String q = """
+            select count(id) 
+            from order_item_tb 
+            where order_id = ?
+            """;
+        Query query = em.createNativeQuery(q);
+        query.setParameter(1, orderId);
+
+        Long count = (Long) query.getSingleResult();
+        return count;
+    }
+
+
+
 }

@@ -151,8 +151,10 @@ public class OrderResponse {
         private Integer indexNum;   // index 용
         private Integer sum;
 
+        private Long count;
+
         @Builder
-        public ListDTO(Integer orderId, Integer userId, String pName, String payment, Integer buyQty, Integer productId, Boolean status, LocalDate createdAt, Integer indexNum, Integer sum) {
+        public ListDTO(Integer orderId, Integer userId, String pName, String payment, Integer buyQty, Integer productId, Boolean status, LocalDate createdAt, Integer indexNum, Integer sum, Long count) {
             this.orderId = orderId;
             this.userId = userId;
             this.pName = pName;
@@ -163,6 +165,7 @@ public class OrderResponse {
             this.createdAt = createdAt;
             this.indexNum = indexNum;
             this.sum = sum;
+            this.count = count;
         }
 
 
