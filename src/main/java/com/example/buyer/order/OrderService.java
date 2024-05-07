@@ -25,7 +25,7 @@ public class OrderService {
     //구매하기 로직
     @Transactional
     public void saveOrder(OrderRequest.SaveDTO requestDTO) {
-        System.out.println("으악" + requestDTO);
+        System.out.println("saveOrder 값 확인" + requestDTO);
 
         //order 저장
         Integer orderId = orderRepo.save(requestDTO);
@@ -57,18 +57,19 @@ public class OrderService {
     //주문 취소하기!!
     @Transactional
     public void orderCancel(List<OrderRequest.CancelDTO> requestDTO) {
-        System.out.println("이거 찍어보자요!! " + requestDTO);
+        System.out.println("이거 찍어보자!! " + requestDTO);
 
+        for (int i = 0; i < requestDTO.size(); i++) {
+            List<OrderItemResponse.CancelDTO> orderItemList = orderItemRepo.findByOrderId(requestDTO.get(i).getOrderId());
+            System.out.println("오더아이템리스트요!! " + orderItemList);
 
-        List<OrderItemResponse.CancelDTO> orderItemList = orderItemRepo.findByOrderId(requestDTO.get(0).getOrderId());
-        System.out.println("오더아이템리스트요!! " + orderItemList);
-
-        //애 for 문 돌리기!!
-        for (OrderItemResponse.CancelDTO cancelDTO : orderItemList) {
-            //            // 1. order_tb 테이블 업데이트
-            orderRepo.updateStatus(cancelDTO);
-//            // 2. product_tb 테이블 업데이트
-            orderRepo.updateQtyPlus(cancelDTO);
+            //애 for 문 돌리기!!
+            for (OrderItemResponse.CancelDTO cancelDTO : orderItemList) {
+                // 1. order_tb 테이블 업데이트
+                orderRepo.updateStatus(cancelDTO);
+            // 2. product_tb 테이블 업데이트
+                orderRepo.updateQtyPlus(cancelDTO);
+            }
         }
 
     }
