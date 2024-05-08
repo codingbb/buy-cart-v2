@@ -177,12 +177,13 @@
         }).done((res)=>{
             // alert("성공");
             console.log(res.message);
-
+            location.href = "/order-save-form"
 
         }).fail((res)=>{
             console.log(res.message);
             if(res.responseJSON.status === 400) {
                 alert(res.responseJSON.msg);
+                location.reload();      //자동 새로고침
             } else {
                 location.href = "/order-save-form"
             }

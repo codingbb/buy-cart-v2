@@ -14,11 +14,8 @@ public class MyExceptionHandler {
 
     @ExceptionHandler(ApiException400.class)
     public ResponseEntity<?> exApi400(ApiException400 e){
-        // 에러 메시지 로그 출력
-        System.out.println(e.getMessage() + "잘 들어오나요??");
-        // 에러 응답 객체 생성
+//        System.out.println(e.getMessage() + "잘 들어오나요??");
         ApiUtil<?> apiUtil = new ApiUtil<>(400, e.getMessage());
-        // ResponseEntity를 이용하여 HTTP 상태 코드와 함께 응답 반환
         return new ResponseEntity<>(apiUtil, HttpStatus.BAD_REQUEST);
     }
 
