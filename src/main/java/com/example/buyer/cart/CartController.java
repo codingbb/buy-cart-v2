@@ -1,9 +1,11 @@
 package com.example.buyer.cart;
 
+import com.example.buyer._core.utils.ApiUtil;
 import com.example.buyer.user.User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +24,8 @@ public class CartController {
         System.out.println("장바구니 값 받나요? : " + requestDTOs);
         cartService.updateCart(requestDTOs);
 
-        return "redirect:/cart-form";
+        //이거 return이... 뷰리졸브 x
+        return "200";
     }
 
 

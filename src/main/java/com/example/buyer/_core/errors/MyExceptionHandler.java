@@ -10,14 +10,12 @@ public class MyExceptionHandler {
 
     //애는 Exception
     @ExceptionHandler(Exception400.class)
-    public String ex400(Exception e, HttpServletRequest request) {
+    public String ex400(Exception400 e, HttpServletRequest request){
         request.setAttribute("msg", e.getMessage());
         return "err/400";
     }
-
-    //애는 Exception
     @ExceptionHandler(Exception401.class)
-    public String ex401(Exception e, HttpServletRequest request) {
+    public String ex401(Exception401 e, HttpServletRequest request){
         request.setAttribute("msg", e.getMessage());
         return "err/401";
     }
