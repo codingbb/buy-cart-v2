@@ -20,12 +20,11 @@ public class CartController {
 
     //장바구니 수량 변경
     @PostMapping("/cart/update")
-    public @ResponseBody String update(@RequestBody List<CartRequest.UpdateDTO> requestDTOs) {
+    public ResponseEntity<?> update(@RequestBody List<CartRequest.UpdateDTO> requestDTOs) {
         System.out.println("장바구니 값 받나요? : " + requestDTOs);
         cartService.updateCart(requestDTOs);
-
         //이거 return이... 뷰리졸브 x
-        return "200";
+        return ResponseEntity.ok().body("성공");
     }
 
 

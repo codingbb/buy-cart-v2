@@ -101,14 +101,14 @@
                     <span style="padding-right: 40px;">합계 (원)</span>
                     <strong class="sum">0</strong>
                 </div>
-                <form action="/order-save-form" method="get">
+<!--                <form action="/order-save-form" method="get">-->
                     {{#cartList}}
                         <input type="hidden" name="cartId" value="{{id}}">
                         <div class="notVisible">{{productId}}</div>
                         <input type="hidden" name="buyQty" value="{{buyQty}}">
                     {{/cartList}}
-                    <button type="submit" class="btn btn-primary" id="purchaseButton">구매하기</button>
-                </form>
+                    <button type="button" class="btn btn-primary" id="purchaseButton">구매하기</button>
+<!--                </form>-->
             </li>
         </ul>
     </div>
@@ -175,11 +175,19 @@
             type: 'POST'
 
         }).done((res)=>{
+            // alert("성공");
+            console.log(res.message);
 
-            location.href = "/order-save-form"
 
         }).fail((res)=>{
-
+            console.log(res.message);
+            if(res.responseJSON.status === 400) {
+                alert(res.responseJSON.msg);
+            } else {
+                location.href = "/order-save-form"
+            }
+            console.log(res);
+            // alert("실패, 입니다.");
         });
     });
 

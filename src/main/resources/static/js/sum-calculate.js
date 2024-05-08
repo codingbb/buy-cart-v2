@@ -2,7 +2,11 @@ $(document).ready(function () {
     setTotal();
 });
 
-$(".item-checkbox, #checkAll").on("change", function(){
+$(".item-checkbox").on("change", function(){
+    setTotal();
+});
+
+$(".buyQty-change").on("keyup", function(){
     setTotal();
 });
 

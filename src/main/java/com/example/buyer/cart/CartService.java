@@ -1,11 +1,9 @@
 package com.example.buyer.cart;
 
-import com.example.buyer._core.errors.exception.Exception400;
-import com.example.buyer._core.errors.exception.Exception401;
-import com.example.buyer._core.errors.exception.Exception403;
-import com.example.buyer._core.errors.exception.Exception404;
+import com.example.buyer._core.errors.exception.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,7 +32,7 @@ public class CartService {
             CartResponse.QtyDTO cart = cartRepo.findByQtyWithId(dto.getCartId());
             if (cart.getQty() < dto.getBuyQty()) {
                 System.out.println("재고 부족 예외 발생 - 재고 수량: " + cart.getQty() + ", 구매 요청 수량: " + dto.getBuyQty());
-                throw new Exception400("재고 부족! 구매 불가");
+                throw new ApiException400("재고 부족! 구매 불가");
             }
         }
 
