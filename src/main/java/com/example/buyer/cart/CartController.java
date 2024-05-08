@@ -40,13 +40,14 @@ public class CartController {
     @PostMapping("/cart/save")
     public String save(CartRequest.SaveDTO requestDTO) {
         User sessionUser = (User) session.getAttribute("sessionUser");
-        Boolean cart = cartService.save(sessionUser.getId(), requestDTO);
+        cartService.save(sessionUser.getId(), requestDTO);
+        System.out.println("바이큐티와이 잘 들어오나요? " + requestDTO);
 
-        if (cart == true) {
+//        if (cart == true) {
             return "redirect:/cart-form";
-        } else {
-            return "/err/duplication";
-        }
+//        } else {
+//            return "/err/duplication";
+//        }
 
     }
 
