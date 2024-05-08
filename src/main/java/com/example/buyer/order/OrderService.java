@@ -113,6 +113,7 @@ public class OrderService {
         return orderList;
     }
 
+
     //내 구매목록 로직 ssar 유저가 구매한 내역만 나와야함
     public List<OrderResponse.ListDTO> orderList(Integer sessionUserId) {
 

@@ -265,7 +265,6 @@ public class OrderRepository {
 
     //order-list 조회용
     public List<OrderResponse.ListDTO> findAllOrder(Integer sessionUserId) {
-        //TODO: 여기도 sum 조회요...
         String q = """
                 select o.id, o.sum, o.user_id, oi.buy_qty, oi.product_id, o.payment, o.created_at, o.status, p.name
                 from order_item_tb oi

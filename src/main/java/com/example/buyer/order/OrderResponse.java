@@ -168,6 +168,14 @@ public class OrderResponse {
             this.count = count;
         }
 
+        // Lombok에서 생성된 getStatus() 메서드를 오버라이드
+        public String getStatus() {
+            if (Boolean.FALSE.equals(status)) {
+                return "취소완료";
+            }
+            return "주문완료";
+        }
+
 
     }
 
