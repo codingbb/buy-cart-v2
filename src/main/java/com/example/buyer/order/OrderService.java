@@ -90,6 +90,7 @@ public class OrderService {
     }
 
     //장바구니에 있는거 주문하는 폼
+    @Transactional
     public List<OrderResponse.SaveFormDTO> orderCartList(Integer sessionUserId) {
         List<OrderResponse.SaveFormDTO> orderList = orderRepo.findStatusAndUserId(sessionUserId);
 
@@ -99,6 +100,9 @@ public class OrderService {
             sum = order.getPrice() * order.getBuyQty();
             order.setSum(sum);
         }
+
+        // 카트에서 벗어나면 다 0으로 롤백
+        cartRepo.updateStatus();
 
         return orderList;
 

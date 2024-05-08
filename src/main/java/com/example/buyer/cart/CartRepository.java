@@ -33,6 +33,19 @@ public class CartRepository {
         }
     }
 
+    // 카트 롤백
+    public void updateStatus() {
+            String q = """
+                update cart_tb set status = ? where status = ?
+                """;
+
+            Query query = em.createNativeQuery(q);
+            query.setParameter(1, false);
+            query.setParameter(2, true);
+            query.executeUpdate();
+
+    }
+
 
     //장바구니 삭제
     public void deleteById(Integer id) {
