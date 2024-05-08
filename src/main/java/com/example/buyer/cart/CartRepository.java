@@ -148,7 +148,7 @@ public class CartRepository {
     }
 
     // 장바구니에 있으면 기존 buyQty에서 + 시키기
-    public void updateBuyQtyAndProductId(CartRequest.SaveDTO requestDTO) {
+    public void updateBuyQty(CartRequest.SaveDTO requestDTO) {
         String q = """
                 update cart_tb set buy_qty = buy_qty + ? where product_id = ?
                 """;

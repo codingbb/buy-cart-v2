@@ -41,14 +41,9 @@ public class CartController {
     public String save(CartRequest.SaveDTO requestDTO) {
         User sessionUser = (User) session.getAttribute("sessionUser");
         cartService.save(sessionUser.getId(), requestDTO);
-        System.out.println("바이큐티와이 잘 들어오나요? " + requestDTO);
+//        System.out.println("바이큐티와이 잘 들어오나요? " + requestDTO);
 
-//        if (cart == true) {
             return "redirect:/cart-form";
-//        } else {
-//            return "/err/duplication";
-//        }
-
     }
 
     //장바구니 폼

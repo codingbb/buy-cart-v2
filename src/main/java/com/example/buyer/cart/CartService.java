@@ -76,7 +76,7 @@ public class CartService {
 
         //장바구니에 중복된 상품이 들어오면 buyQty에 업데이트
         if (cart != null) {
-            cartRepo.updateBuyQtyAndProductId(requestDTO);
+            cartRepo.updateBuyQty(requestDTO);
         } else {
             cartRepo.save(userId, requestDTO);
         }
